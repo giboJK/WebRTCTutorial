@@ -3,10 +3,11 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0848AA7625E77F52003E3951 /* WebRTCClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0848AA7525E77F52003E3951 /* WebRTCClient.swift */; };
 		08B301EE25E60B3200A4BA26 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B301ED25E60B3200A4BA26 /* AppDelegate.swift */; };
 		08B301F025E60B3200A4BA26 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B301EF25E60B3200A4BA26 /* SceneDelegate.swift */; };
 		08B301F225E60B3200A4BA26 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B301F125E60B3200A4BA26 /* ViewController.swift */; };
@@ -38,6 +39,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0848AA7525E77F52003E3951 /* WebRTCClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebRTCClient.swift; sourceTree = "<group>"; };
 		08B301EA25E60B3200A4BA26 /* WebRTCTutorial.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WebRTCTutorial.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		08B301ED25E60B3200A4BA26 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		08B301EF25E60B3200A4BA26 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -91,6 +93,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0848AA7425E77F3A003E3951 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				0848AA7525E77F52003E3951 /* WebRTCClient.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
 		08B301E125E60B3200A4BA26 = {
 			isa = PBXGroup;
 			children = (
@@ -116,6 +126,7 @@
 		08B301EC25E60B3200A4BA26 /* WebRTCTutorial */ = {
 			isa = PBXGroup;
 			children = (
+				0848AA7425E77F3A003E3951 /* Service */,
 				08B301ED25E60B3200A4BA26 /* AppDelegate.swift */,
 				08B301EF25E60B3200A4BA26 /* SceneDelegate.swift */,
 				08B301F125E60B3200A4BA26 /* ViewController.swift */,
@@ -165,7 +176,6 @@
 				B1E5B617335FAE50CE2D5D90 /* Pods-WebRTCTutorialTests.debug.xcconfig */,
 				D4F0BA9CF22D40A373AF9753 /* Pods-WebRTCTutorialTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -410,6 +420,7 @@
 				08B301F225E60B3200A4BA26 /* ViewController.swift in Sources */,
 				08B301EE25E60B3200A4BA26 /* AppDelegate.swift in Sources */,
 				08B301F025E60B3200A4BA26 /* SceneDelegate.swift in Sources */,
+				0848AA7625E77F52003E3951 /* WebRTCClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -588,7 +599,9 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 7DRKXA27FG;
+				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = WebRTCTutorial/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -608,7 +621,9 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 7DRKXA27FG;
+				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = WebRTCTutorial/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

@@ -1,20 +1,24 @@
 PODS:
   - Alamofire (5.4.1)
+  - GoogleWebRTC (1.1.31999)
   - SnapKit (5.0.1)
 
 DEPENDENCIES:
   - Alamofire
+  - GoogleWebRTC
   - SnapKit
 
 SPEC REPOS:
   trunk:
     - Alamofire
+    - GoogleWebRTC
     - SnapKit
 
 SPEC CHECKSUMS:
   Alamofire: 2291f7d21ca607c491dd17642e5d40fdcda0e65c
+  GoogleWebRTC: b39a78c4f5cc6b0323415b9233db03a2faa7b0f0
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
 
-PODFILE CHECKSUM: 2883f286a5280945ef2a4d85fcf5484647e8568b
+PODFILE CHECKSUM: a15b9a152cd526d40baefb7175f25e5b49ea7240
 
 COCOAPODS: 1.10.0

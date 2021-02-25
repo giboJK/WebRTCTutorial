@@ -8,7 +8,7 @@ target 'WebRTCTutorial' do
   # Pods for WebRTCTutorial
   pod 'SnapKit'
   pod 'Alamofire'
-  
+  pod 'GoogleWebRTC'
   
   target 'WebRTCTutorialTests' do
     inherit! :search_paths
