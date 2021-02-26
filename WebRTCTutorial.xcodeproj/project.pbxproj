@@ -16,9 +16,13 @@
 		0848AAD425E8C1EC003E3951 /* SessionDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0848AAD325E8C1EC003E3951 /* SessionDescription.swift */; };
 		0848AADC25E8C211003E3951 /* IceCandidate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0848AADB25E8C211003E3951 /* IceCandidate.swift */; };
 		0848AB0825E8C507003E3951 /* RTCStates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0848AB0725E8C507003E3951 /* RTCStates.swift */; };
+		0848AB1E25E8CFCE003E3951 /* VideoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0848AB1D25E8CFCE003E3951 /* VideoViewController.xib */; };
+		0848AB2325E8CFE0003E3951 /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0848AB2225E8CFE0003E3951 /* VideoViewController.swift */; };
+		0848AB2825E8D055003E3951 /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0848AB2725E8D055003E3951 /* MainViewController.xib */; };
+		0848AB2D25E8D06D003E3951 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0848AB2C25E8D06D003E3951 /* MainViewController.swift */; };
+		0848AB3525E8D0CD003E3951 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0848AB3425E8D0CD003E3951 /* Config.swift */; };
 		08B301EE25E60B3200A4BA26 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B301ED25E60B3200A4BA26 /* AppDelegate.swift */; };
 		08B301F025E60B3200A4BA26 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B301EF25E60B3200A4BA26 /* SceneDelegate.swift */; };
-		08B301F225E60B3200A4BA26 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B301F125E60B3200A4BA26 /* ViewController.swift */; };
 		08B301F725E60B3400A4BA26 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 08B301F625E60B3400A4BA26 /* Assets.xcassets */; };
 		08B301FA25E60B3400A4BA26 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 08B301F825E60B3400A4BA26 /* LaunchScreen.storyboard */; };
 		08B3020525E60B3400A4BA26 /* WebRTCTutorialTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B3020425E60B3400A4BA26 /* WebRTCTutorialTests.swift */; };
@@ -55,10 +59,14 @@
 		0848AAD325E8C1EC003E3951 /* SessionDescription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDescription.swift; sourceTree = "<group>"; };
 		0848AADB25E8C211003E3951 /* IceCandidate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IceCandidate.swift; sourceTree = "<group>"; };
 		0848AB0725E8C507003E3951 /* RTCStates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RTCStates.swift; sourceTree = "<group>"; };
+		0848AB1D25E8CFCE003E3951 /* VideoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VideoViewController.xib; sourceTree = "<group>"; };
+		0848AB2225E8CFE0003E3951 /* VideoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoViewController.swift; sourceTree = "<group>"; };
+		0848AB2725E8D055003E3951 /* MainViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainViewController.xib; sourceTree = "<group>"; };
+		0848AB2C25E8D06D003E3951 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		0848AB3425E8D0CD003E3951 /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		08B301EA25E60B3200A4BA26 /* WebRTCTutorial.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WebRTCTutorial.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		08B301ED25E60B3200A4BA26 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		08B301EF25E60B3200A4BA26 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		08B301F125E60B3200A4BA26 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		08B301F625E60B3400A4BA26 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		08B301F925E60B3400A4BA26 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		08B301FB25E60B3400A4BA26 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -138,6 +146,25 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		0848AB1825E8CF5D003E3951 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				0848AB1C25E8CFBC003E3951 /* Video */,
+				0848AB2725E8D055003E3951 /* MainViewController.xib */,
+				0848AB2C25E8D06D003E3951 /* MainViewController.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		0848AB1C25E8CFBC003E3951 /* Video */ = {
+			isa = PBXGroup;
+			children = (
+				0848AB1D25E8CFCE003E3951 /* VideoViewController.xib */,
+				0848AB2225E8CFE0003E3951 /* VideoViewController.swift */,
+			);
+			path = Video;
+			sourceTree = "<group>";
+		};
 		08B301E125E60B3200A4BA26 = {
 			isa = PBXGroup;
 			children = (
@@ -163,14 +190,15 @@
 		08B301EC25E60B3200A4BA26 /* WebRTCTutorial */ = {
 			isa = PBXGroup;
 			children = (
+				0848AB1825E8CF5D003E3951 /* Views */,
 				0848AAD225E8C1D9003E3951 /* Extensions */,
 				0848AA7425E77F3A003E3951 /* Services */,
 				08B301ED25E60B3200A4BA26 /* AppDelegate.swift */,
 				08B301EF25E60B3200A4BA26 /* SceneDelegate.swift */,
-				08B301F125E60B3200A4BA26 /* ViewController.swift */,
 				08B301F625E60B3400A4BA26 /* Assets.xcassets */,
 				08B301F825E60B3400A4BA26 /* LaunchScreen.storyboard */,
 				08B301FB25E60B3400A4BA26 /* Info.plist */,
+				0848AB3425E8D0CD003E3951 /* Config.swift */,
 			);
 			path = WebRTCTutorial;
 			sourceTree = "<group>";
@@ -326,6 +354,8 @@
 			files = (
 				08B301FA25E60B3400A4BA26 /* LaunchScreen.storyboard in Resources */,
 				08B301F725E60B3400A4BA26 /* Assets.xcassets in Resources */,
+				0848AB1E25E8CFCE003E3951 /* VideoViewController.xib in Resources */,
+				0848AB2825E8D055003E3951 /* MainViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -454,11 +484,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				0848AAA525E8A6A7003E3951 /* SignalingClient.swift in Sources */,
-				08B301F225E60B3200A4BA26 /* ViewController.swift in Sources */,
 				08B301EE25E60B3200A4BA26 /* AppDelegate.swift in Sources */,
 				0848AB0825E8C507003E3951 /* RTCStates.swift in Sources */,
+				0848AB3525E8D0CD003E3951 /* Config.swift in Sources */,
 				0848AACE25E8BB56003E3951 /* Message.swift in Sources */,
+				0848AB2325E8CFE0003E3951 /* VideoViewController.swift in Sources */,
 				08B301F025E60B3200A4BA26 /* SceneDelegate.swift in Sources */,
+				0848AB2D25E8D06D003E3951 /* MainViewController.swift in Sources */,
 				0848AAD425E8C1EC003E3951 /* SessionDescription.swift in Sources */,
 				0848AA7625E77F52003E3951 /* WebRTCClient.swift in Sources */,
 				0848AAAE25E8AA95003E3951 /* WebSocketProvider.swift in Sources */,

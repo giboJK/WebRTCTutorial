@@ -10,6 +10,7 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
+    private let config = Config.default
 
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
@@ -19,39 +20,38 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.windowScene = windowScene
-        window?.rootViewController = ViewController()    // In ViewController.swift
+        window?.rootViewController = buildMainViewController()    // In ViewController.swift
 //        window?.rootViewController?.view.backgroundColor = .yellow  // So we can see it
         window?.makeKeyAndVisible()
     }
-
-    func sceneDidDisconnect(_ scene: UIScene) {
-        // Called as the scene is being released by the system.
-        // This occurs shortly after the scene enters the background, or when its session is discarded.
-        // Release any resources associated with this scene that can be re-created the next time the scene connects.
-        // The scene may re-connect later, as its session was not necessarily discarded (see `application:didDiscardSceneSessions` instead).
+    
+    private func buildMainViewController() -> UIViewController {
+        
+        let webRTCClient = WebRTCClient(iceServers: self.config.webRTCIceServers)
+        let signalClient = self.buildSignalingClient()
+        let mainViewController = MainViewController(signalClient: signalClient, webRTCClient: webRTCClient)
+        let navViewController = UINavigationController(rootViewController: mainViewController)
+        if #available(iOS 11.0, *) {
+            navViewController.navigationBar.prefersLargeTitles = true
+        }
+        else {
+            navViewController.navigationBar.isTranslucent = false
+        }
+        return navViewController
     }
-
-    func sceneDidBecomeActive(_ scene: UIScene) {
-        // Called when the scene has moved from an inactive state to an active state.
-        // Use this method to restart any tasks that were paused (or not yet started) when the scene was inactive.
+    
+    private func buildSignalingClient() -> SignalingClient {
+        
+        // iOS 13 has native websocket support. For iOS 12 or lower we will use 3rd party library.
+        let webSocketProvider: WebSocketProvider
+        
+        if #available(iOS 13.0, *) {
+            webSocketProvider = NativeWebSocket(url: self.config.signalingServerUrl)
+        } else {
+            webSocketProvider = StarscreamWebSocket(url: self.config.signalingServerUrl)
+        }
+        
+        return SignalingClient(webSocket: webSocketProvider)
     }
-
-    func sceneWillResignActive(_ scene: UIScene) {
-        // Called when the scene will move from an active state to an inactive state.
-        // This may occur due to temporary interruptions (ex. an incoming phone call).
-    }
-
-    func sceneWillEnterForeground(_ scene: UIScene) {
-        // Called as the scene transitions from the background to the foreground.
-        // Use this method to undo the changes made on entering the background.
-    }
-
-    func sceneDidEnterBackground(_ scene: UIScene) {
-        // Called as the scene transitions from the foreground to the background.
-        // Use this method to save data, release shared resources, and store enough scene-specific state information
-        // to restore the scene back to its current state.
-    }
-
-
 }
 
