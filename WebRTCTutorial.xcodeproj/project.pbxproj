@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		0848AA7625E77F52003E3951 /* WebRTCClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0848AA7525E77F52003E3951 /* WebRTCClient.swift */; };
+		0848AAA525E8A6A7003E3951 /* SignalingClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0848AAA425E8A6A7003E3951 /* SignalingClient.swift */; };
+		0848AAAE25E8AA95003E3951 /* WebSocketProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0848AAAD25E8AA95003E3951 /* WebSocketProvider.swift */; };
+		0848AAB625E8AACD003E3951 /* StarscreamProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0848AAB525E8AACD003E3951 /* StarscreamProvider.swift */; };
 		08B301EE25E60B3200A4BA26 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B301ED25E60B3200A4BA26 /* AppDelegate.swift */; };
 		08B301F025E60B3200A4BA26 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B301EF25E60B3200A4BA26 /* SceneDelegate.swift */; };
 		08B301F225E60B3200A4BA26 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B301F125E60B3200A4BA26 /* ViewController.swift */; };
@@ -40,6 +43,9 @@
 
 /* Begin PBXFileReference section */
 		0848AA7525E77F52003E3951 /* WebRTCClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebRTCClient.swift; sourceTree = "<group>"; };
+		0848AAA425E8A6A7003E3951 /* SignalingClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignalingClient.swift; sourceTree = "<group>"; };
+		0848AAAD25E8AA95003E3951 /* WebSocketProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketProvider.swift; sourceTree = "<group>"; };
+		0848AAB525E8AACD003E3951 /* StarscreamProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarscreamProvider.swift; sourceTree = "<group>"; };
 		08B301EA25E60B3200A4BA26 /* WebRTCTutorial.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WebRTCTutorial.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		08B301ED25E60B3200A4BA26 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		08B301EF25E60B3200A4BA26 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -93,12 +99,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0848AA7425E77F3A003E3951 /* Service */ = {
+		0848AA7425E77F3A003E3951 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				0848AAAC25E8AA7A003E3951 /* WebSocketProvider */,
 				0848AA7525E77F52003E3951 /* WebRTCClient.swift */,
+				0848AAA425E8A6A7003E3951 /* SignalingClient.swift */,
 			);
-			path = Service;
+			path = Services;
+			sourceTree = "<group>";
+		};
+		0848AAAC25E8AA7A003E3951 /* WebSocketProvider */ = {
+			isa = PBXGroup;
+			children = (
+				0848AAAD25E8AA95003E3951 /* WebSocketProvider.swift */,
+				0848AAB525E8AACD003E3951 /* StarscreamProvider.swift */,
+			);
+			path = WebSocketProvider;
 			sourceTree = "<group>";
 		};
 		08B301E125E60B3200A4BA26 = {
@@ -126,7 +143,7 @@
 		08B301EC25E60B3200A4BA26 /* WebRTCTutorial */ = {
 			isa = PBXGroup;
 			children = (
-				0848AA7425E77F3A003E3951 /* Service */,
+				0848AA7425E77F3A003E3951 /* Services */,
 				08B301ED25E60B3200A4BA26 /* AppDelegate.swift */,
 				08B301EF25E60B3200A4BA26 /* SceneDelegate.swift */,
 				08B301F125E60B3200A4BA26 /* ViewController.swift */,
@@ -417,10 +434,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0848AAA525E8A6A7003E3951 /* SignalingClient.swift in Sources */,
 				08B301F225E60B3200A4BA26 /* ViewController.swift in Sources */,
 				08B301EE25E60B3200A4BA26 /* AppDelegate.swift in Sources */,
 				08B301F025E60B3200A4BA26 /* SceneDelegate.swift in Sources */,
 				0848AA7625E77F52003E3951 /* WebRTCClient.swift in Sources */,
+				0848AAAE25E8AA95003E3951 /* WebSocketProvider.swift in Sources */,
+				0848AAB625E8AACD003E3951 /* StarscreamProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
