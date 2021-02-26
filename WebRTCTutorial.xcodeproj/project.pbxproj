@@ -11,6 +11,10 @@
 		0848AAA525E8A6A7003E3951 /* SignalingClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0848AAA425E8A6A7003E3951 /* SignalingClient.swift */; };
 		0848AAAE25E8AA95003E3951 /* WebSocketProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0848AAAD25E8AA95003E3951 /* WebSocketProvider.swift */; };
 		0848AAB625E8AACD003E3951 /* StarscreamProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0848AAB525E8AACD003E3951 /* StarscreamProvider.swift */; };
+		0848AAC925E8B92D003E3951 /* NativeWebSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0848AAC825E8B92D003E3951 /* NativeWebSocket.swift */; };
+		0848AACE25E8BB56003E3951 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0848AACD25E8BB56003E3951 /* Message.swift */; };
+		0848AAD425E8C1EC003E3951 /* SessionDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0848AAD325E8C1EC003E3951 /* SessionDescription.swift */; };
+		0848AADC25E8C211003E3951 /* IceCandidate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0848AADB25E8C211003E3951 /* IceCandidate.swift */; };
 		08B301EE25E60B3200A4BA26 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B301ED25E60B3200A4BA26 /* AppDelegate.swift */; };
 		08B301F025E60B3200A4BA26 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B301EF25E60B3200A4BA26 /* SceneDelegate.swift */; };
 		08B301F225E60B3200A4BA26 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B301F125E60B3200A4BA26 /* ViewController.swift */; };
@@ -46,6 +50,10 @@
 		0848AAA425E8A6A7003E3951 /* SignalingClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignalingClient.swift; sourceTree = "<group>"; };
 		0848AAAD25E8AA95003E3951 /* WebSocketProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketProvider.swift; sourceTree = "<group>"; };
 		0848AAB525E8AACD003E3951 /* StarscreamProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarscreamProvider.swift; sourceTree = "<group>"; };
+		0848AAC825E8B92D003E3951 /* NativeWebSocket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeWebSocket.swift; sourceTree = "<group>"; };
+		0848AACD25E8BB56003E3951 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		0848AAD325E8C1EC003E3951 /* SessionDescription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDescription.swift; sourceTree = "<group>"; };
+		0848AADB25E8C211003E3951 /* IceCandidate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IceCandidate.swift; sourceTree = "<group>"; };
 		08B301EA25E60B3200A4BA26 /* WebRTCTutorial.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WebRTCTutorial.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		08B301ED25E60B3200A4BA26 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		08B301EF25E60B3200A4BA26 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -105,6 +113,7 @@
 				0848AAAC25E8AA7A003E3951 /* WebSocketProvider */,
 				0848AA7525E77F52003E3951 /* WebRTCClient.swift */,
 				0848AAA425E8A6A7003E3951 /* SignalingClient.swift */,
+				0848AACD25E8BB56003E3951 /* Message.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -114,8 +123,18 @@
 			children = (
 				0848AAAD25E8AA95003E3951 /* WebSocketProvider.swift */,
 				0848AAB525E8AACD003E3951 /* StarscreamProvider.swift */,
+				0848AAC825E8B92D003E3951 /* NativeWebSocket.swift */,
 			);
 			path = WebSocketProvider;
+			sourceTree = "<group>";
+		};
+		0848AAD225E8C1D9003E3951 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				0848AAD325E8C1EC003E3951 /* SessionDescription.swift */,
+				0848AADB25E8C211003E3951 /* IceCandidate.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		08B301E125E60B3200A4BA26 = {
@@ -143,6 +162,7 @@
 		08B301EC25E60B3200A4BA26 /* WebRTCTutorial */ = {
 			isa = PBXGroup;
 			children = (
+				0848AAD225E8C1D9003E3951 /* Extensions */,
 				0848AA7425E77F3A003E3951 /* Services */,
 				08B301ED25E60B3200A4BA26 /* AppDelegate.swift */,
 				08B301EF25E60B3200A4BA26 /* SceneDelegate.swift */,
@@ -437,9 +457,13 @@
 				0848AAA525E8A6A7003E3951 /* SignalingClient.swift in Sources */,
 				08B301F225E60B3200A4BA26 /* ViewController.swift in Sources */,
 				08B301EE25E60B3200A4BA26 /* AppDelegate.swift in Sources */,
+				0848AACE25E8BB56003E3951 /* Message.swift in Sources */,
 				08B301F025E60B3200A4BA26 /* SceneDelegate.swift in Sources */,
+				0848AAD425E8C1EC003E3951 /* SessionDescription.swift in Sources */,
 				0848AA7625E77F52003E3951 /* WebRTCClient.swift in Sources */,
 				0848AAAE25E8AA95003E3951 /* WebSocketProvider.swift in Sources */,
+				0848AAC925E8B92D003E3951 /* NativeWebSocket.swift in Sources */,
+				0848AADC25E8C211003E3951 /* IceCandidate.swift in Sources */,
 				0848AAB625E8AACD003E3951 /* StarscreamProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

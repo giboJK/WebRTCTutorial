@@ -24,4 +24,35 @@ final class SignalingClient {
     init(webSocket: WebSocketProvider) {
         self.webSocket = webSocket
     }
+    
+    func connect() {
+        self.webSocket.delegate = self
+        self.webSocket.connect()
+    }
+    
+    func send(sdp rtcSdp: RTCSessionDescription) {
+        let message = Message.sdp(SessionDescription(from: rtcSdp))
+        do {
+            let dataMessage = try self.encoder.encode(message)
+            
+            self.webSocket.send(data: dataMessage)
+        }
+        catch {
+            debugPrint("Warning: Could not encode sdp: \(error)")
+        }
+    }
+}
+
+extension SignalingClient: WebSocketProviderDelegate {
+    func webSocketDidConnect(_ webSocket: WebSocketProvider) {
+        
+    }
+    
+    func webSocketDidDisconnect(_ webSocket: WebSocketProvider) {
+        
+    }
+    
+    func webSocket(_ webSocket: WebSocketProvider, didReceiveData data: Data) {
+        
+    }
 }
