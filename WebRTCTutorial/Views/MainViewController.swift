@@ -137,6 +137,7 @@ class MainViewController: UIViewController {
     }
     
     @IBAction private func videoDidTap(_ sender: UIButton) {
+        videoViewController.modalPresentationStyle = .fullScreen
         self.present(videoViewController, animated: true, completion: nil)
     }
     

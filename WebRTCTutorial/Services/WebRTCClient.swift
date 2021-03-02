@@ -59,9 +59,9 @@ final class WebRTCClient: NSObject {
                                                                   delegate: nil)
         
         super.init()
-//        self.createMediaSenders()
-//        self.configureAudioSession()
-//        self.peerConnection.delegate = self
+        self.createMediaSenders()
+        self.configureAudioSession()
+        self.peerConnection.delegate = self
     }
     
     
