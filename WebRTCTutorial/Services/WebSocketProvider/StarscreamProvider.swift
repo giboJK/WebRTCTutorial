@@ -34,13 +34,15 @@ extension StarscreamWebSocket: Starscream.WebSocketDelegate {
         case .connected(let strings):
             print(strings)
             self.webSocketProviderDelegate?.webSocketDidConnect(self)
-        case .disconnected(let str, let uint):
-            print(str, uint)
+        case .disconnected(let reason, let code):
+            print(reason, code)
             self.webSocketProviderDelegate?.webSocketDidDisconnect(self)
         case .cancelled:
             print("cancelled")
         case .error(let error):
             print("error \(error.debugDescription)")
+        case .binary(let data):
+            print(data)
         case .text(let str):
             print("text?? \(str)")
         case .binary(let data):

@@ -1,28 +1,24 @@
 PODS:
-  - Alamofire (5.4.1)
   - GoogleWebRTC (1.1.31999)
   - SnapKit (5.0.1)
   - Starscream (4.0.4)
 
 DEPENDENCIES:
-  - Alamofire
   - GoogleWebRTC
   - SnapKit
   - Starscream
 
 SPEC REPOS:
   trunk:
-    - Alamofire
     - GoogleWebRTC
     - SnapKit
     - Starscream
 
 SPEC CHECKSUMS:
-  Alamofire: 2291f7d21ca607c491dd17642e5d40fdcda0e65c
   GoogleWebRTC: b39a78c4f5cc6b0323415b9233db03a2faa7b0f0
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
   Starscream: 5178aed56b316f13fa3bc55694e583d35dd414d9
 
-PODFILE CHECKSUM: d4f64fdfe9f2f7badbb7d13a69dd7163f7fd7de4
+PODFILE CHECKSUM: 08f242a4e2ff3fdabf4f27fe90b9f74136544602
 
 COCOAPODS: 1.10.0

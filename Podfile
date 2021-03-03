@@ -7,7 +7,6 @@ target 'WebRTCTutorial' do
 
   # Pods for WebRTCTutorial
   pod 'SnapKit'
-  pod 'Alamofire'
   pod 'GoogleWebRTC'
   pod 'Starscream'
   

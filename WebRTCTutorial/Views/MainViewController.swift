@@ -28,8 +28,7 @@ class MainViewController: UIViewController {
     
     // MARK: UI
     var signalingStatusLabel = UILabel()
-    var offerButton = UIButton(type: .custom)
-    var callButton = UIButton(type: .custom)
+    var callButton = UIButton(type: .system)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,13 +50,10 @@ class MainViewController: UIViewController {
         signalingClient.connect()
     }
     
-    func makeOffer() {
-        self.webRTCClient.offer { (sdp) in
-            self.signalingClient.send(sdp: sdp)
-        }
-    }
-    
     @objc func didTapCallButton() {
+        webRTCClient.connect { offerSDP in
+            self.signalingClient.send(sdp: offerSDP)
+        }
     }
     
     
@@ -83,7 +79,7 @@ class MainViewController: UIViewController {
     func setupCallButton() {
         view.addSubview(callButton)
         
-        callButton.backgroundColor = .gray
+        callButton.backgroundColor = .yellow
         callButton.setTitle("Call", for: .normal)
         callButton.addTarget(self, action: #selector(didTapCallButton), for: .touchUpInside)
         callButton.snp.makeConstraints {
@@ -139,31 +135,5 @@ extension MainViewController: WebRTCClientDelegate {
     
     func didDisconnectWebRTC() {
     
-    }
-}
-
-// MARK: WebSocketDelegate
-extension MainViewController: WebSocketDelegate {
-    func didReceive(event: WebSocketEvent, client: WebSocket) {
-        switch event {
-        case .connected(let dict):
-            break
-        case .disconnected(let str, let int16):
-            break
-        case .text(let text):
-            print(text)
-            
-        case .binary(let data):
-            print("binary")
-            
-        case .cancelled:
-            print("cancelled")
-            
-        case .error(let error):
-            print(error?.localizedDescription)
-            
-        default:
-            print(event.self)
-        }
     }
 }
