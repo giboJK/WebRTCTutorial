@@ -9,7 +9,7 @@ import Foundation
 import Starscream
 
 class StarscreamWebSocket: WebSocketProvider {
-    var delegate: WebSocketProviderDelegate?
+    var webSocketProviderDelegate: WebSocketProviderDelegate?
     private let socket: WebSocket
     
     init(url: URL) {
@@ -33,10 +33,10 @@ extension StarscreamWebSocket: Starscream.WebSocketDelegate {
         switch event {
         case .connected(let strings):
             print(strings)
-            self.delegate?.webSocketDidConnect(self)
+            self.webSocketProviderDelegate?.webSocketDidConnect(self)
         case .disconnected(let str, let uint):
             print(str, uint)
-            self.delegate?.webSocketDidDisconnect(self)
+            self.webSocketProviderDelegate?.webSocketDidDisconnect(self)
         case .cancelled:
             print("cancelled")
         case .error(let error):
@@ -44,7 +44,7 @@ extension StarscreamWebSocket: Starscream.WebSocketDelegate {
         case .text(let str):
             print("text?? \(str)")
         case .binary(let data):
-            self.delegate?.webSocket(self, didReceiveData: data)
+            self.webSocketProviderDelegate?.webSocket(self, didReceiveData: data)
         default:
             print("Event default")
         }

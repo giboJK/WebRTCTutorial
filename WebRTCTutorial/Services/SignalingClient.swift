@@ -19,14 +19,14 @@ final class SignalingClient {
     private let decoder = JSONDecoder()
     private let encoder = JSONEncoder()
     private let webSocket: WebSocketProvider
-    weak var delegate: SignalClientDelegate?
+    weak var signalClientDelegate: SignalClientDelegate?
     
     init(webSocket: WebSocketProvider) {
         self.webSocket = webSocket
+        self.webSocket.webSocketProviderDelegate = self
     }
     
     func connect() {
-        self.webSocket.delegate = self
         self.webSocket.connect()
     }
     
@@ -54,14 +54,13 @@ final class SignalingClient {
     }
 }
 
-
 extension SignalingClient: WebSocketProviderDelegate {
     func webSocketDidConnect(_ webSocket: WebSocketProvider) {
-        self.delegate?.signalClientDidConnect(self)
+        self.signalClientDelegate?.signalClientDidConnect(self)
     }
     
     func webSocketDidDisconnect(_ webSocket: WebSocketProvider) {
-        self.delegate?.signalClientDidDisconnect(self)
+        self.signalClientDelegate?.signalClientDidDisconnect(self)
         
         // try to reconnect every two seconds
         DispatchQueue.global().asyncAfter(deadline: .now() + 2) {
@@ -82,10 +81,9 @@ extension SignalingClient: WebSocketProviderDelegate {
         
         switch message {
         case .candidate(let iceCandidate):
-            self.delegate?.signalClient(self, didReceiveCandidate: iceCandidate.rtcIceCandidate)
+            self.signalClientDelegate?.signalClient(self, didReceiveCandidate: iceCandidate.rtcIceCandidate)
         case .sdp(let sessionDescription):
-            self.delegate?.signalClient(self, didReceiveRemoteSdp: sessionDescription.rtcSessionDescription)
+            self.signalClientDelegate?.signalClient(self, didReceiveRemoteSdp: sessionDescription.rtcSessionDescription)
         }
-
     }
 }

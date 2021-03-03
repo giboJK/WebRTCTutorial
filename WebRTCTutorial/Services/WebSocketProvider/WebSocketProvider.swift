@@ -8,7 +8,7 @@
 import Foundation
 
 protocol WebSocketProvider: class {
-    var delegate: WebSocketProviderDelegate? { get set }
+    var webSocketProviderDelegate: WebSocketProviderDelegate? { get set }
     func connect()
     func send(data: Data)
 }

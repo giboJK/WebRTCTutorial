@@ -8,7 +8,7 @@
 import Foundation
 
 class NativeWebSocket: NSObject, WebSocketProvider {
-    var delegate: WebSocketProviderDelegate?
+    var webSocketProviderDelegate: WebSocketProviderDelegate?
     private let url: URL
     private var socket: URLSessionWebSocketTask?
     private lazy var urlSession: URLSession = URLSession(configuration: .default, delegate: self, delegateQueue: nil)
@@ -35,7 +35,7 @@ class NativeWebSocket: NSObject, WebSocketProvider {
             
             switch message {
             case .success(.data(let data)):
-                self.delegate?.webSocket(self, didReceiveData: data)
+                self.webSocketProviderDelegate?.webSocket(self, didReceiveData: data)
                 self.readMessage()
             case .success:
                 self.readMessage()
@@ -48,13 +48,13 @@ class NativeWebSocket: NSObject, WebSocketProvider {
     private func disconnect() {
         self.socket?.cancel()
         self.socket = nil
-        self.delegate?.webSocketDidDisconnect(self)
+        self.webSocketProviderDelegate?.webSocketDidDisconnect(self)
     }
 }
 
 extension NativeWebSocket: URLSessionWebSocketDelegate, URLSessionDelegate {
     func urlSession(_ session: URLSession, webSocketTask: URLSessionWebSocketTask, didOpenWithProtocol protocol: String?) {
-        self.delegate?.webSocketDidConnect(self)
+        self.webSocketProviderDelegate?.webSocketDidConnect(self)
     }
     
     func urlSession(_ session: URLSession, webSocketTask: URLSessionWebSocketTask, didCloseWith closeCode: URLSessionWebSocketTask.CloseCode, reason: Data?) {
