@@ -107,6 +107,8 @@ extension MainViewController: SignalClientDelegate {
     
     func signalClient(_ signalClient: SignalingClient, didReceiveRemoteSdp sdp: RTCSessionDescription) {
         print("signalClient - didReceiveRemoteSdp")
+        // 여기서 remote의 offer를 받음
+        // 받은 후 answer를 날려야 함
     }
     
     func signalClient(_ signalClient: SignalingClient, didReceiveCandidate candidate: RTCIceCandidate) {

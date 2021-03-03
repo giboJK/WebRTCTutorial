@@ -41,8 +41,6 @@ extension StarscreamWebSocket: Starscream.WebSocketDelegate {
             print("cancelled")
         case .error(let error):
             print("error \(error.debugDescription)")
-        case .binary(let data):
-            print(data)
         case .text(let str):
             print("text?? \(str)")
         case .binary(let data):
