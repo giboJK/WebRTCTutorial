@@ -48,10 +48,8 @@ final class WebRTCClient: NSObject {
     // MARK: Video
     private var videoCapturer: RTCVideoCapturer?
     private var localVideoTrack: RTCVideoTrack?
-    private var localRenderView: RTCEAGLVideoView?
     
     private var remoteVideoTrack: RTCVideoTrack?
-    private var remoteRenderView: RTCEAGLVideoView?
     
     
     // MARK: Data
@@ -275,7 +273,6 @@ final class WebRTCClient: NSObject {
         self.isConnected = true
         
         DispatchQueue.main.async {
-            self.remoteRenderView?.isHidden = false
             self.delegate?.didConnectWebRTC()
         }
     }
@@ -287,7 +284,6 @@ final class WebRTCClient: NSObject {
             print("--- on dis connected ---")
             self.peerConnection!.close()
             self.peerConnection = nil
-            self.remoteRenderView?.isHidden = true
             self.localDataChannel = nil
             self.delegate?.didDisconnectWebRTC()
         }
@@ -301,6 +297,17 @@ extension WebRTCClient: RTCPeerConnectionDelegate {
     
     func peerConnection(_ peerConnection: RTCPeerConnection, didAdd stream: RTCMediaStream) {
         debugPrint("peerConnection did add stream")
+//        self.remoteStream = stream
+//
+//        if let track = stream.videoTracks.first {
+//            print("video track faund")
+//            track.add(remoteRenderView!)
+//        }
+//
+//        if let audioTrack = stream.audioTracks.first{
+//            print("audio track faund")
+//            audioTrack.source.volume = 8
+//        }
     }
     
     func peerConnection(_ peerConnection: RTCPeerConnection, didRemove stream: RTCMediaStream) {

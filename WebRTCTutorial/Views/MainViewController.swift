@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import AVFoundation
 import WebRTC
 import Starscream
 import SnapKit
@@ -18,10 +17,6 @@ class MainViewController: UIViewController {
     var signalingClient: SignalingClient!
     
     
-    // You can create video source from CMSampleBuffer :)
-    var useCustomCapturer: Bool = false
-    var cameraFilter: CameraFilter?
-    
     
     // MARK: UI
     let signalingStatusLabel = UILabel()
@@ -30,11 +25,6 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        
-        #if targetEnvironment(simulator)
-        // simulator does not have camera
-        self.useCustomCapturer = false
-        #endif
         
         signalingClient = SignalingClient(webSocket: StarscreamWebSocket(url: Config.default.signalingServerUrl))
         signalingClient.signalClientDelegate = self
