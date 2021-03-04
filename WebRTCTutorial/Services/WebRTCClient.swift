@@ -102,6 +102,8 @@ final class WebRTCClient: NSObject {
     }
     
     // MARK: Signaling
+    // peerConnection에서 localDescription의 값을 설정한 후
+    // SignalingServer에 내 SDP를 보낸다
     private func offer(completion: @escaping (_ sdp: RTCSessionDescription) -> Void) {
         let constrains = RTCMediaConstraints(mandatoryConstraints: self.mediaConstrains,
                                              optionalConstraints: nil)
