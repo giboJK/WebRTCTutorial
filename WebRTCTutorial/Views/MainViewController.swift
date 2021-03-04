@@ -106,13 +106,19 @@ extension MainViewController: SignalClientDelegate {
     }
     
     func signalClient(_ signalClient: SignalingClient, didReceiveRemoteSdp sdp: RTCSessionDescription) {
-        print("signalClient - didReceiveRemoteSdp")
-        // 여기서 remote의 offer를 받음
-        // 받은 후 answer를 날려야 함
-        // 만약 로컬 sdp가 없으면 answer를 날리고
-        // 로컬sdp를 세팅
-        webRTCClient.answer { sdp in
-            
+        switch sdp.type {
+        case .offer:
+            print("offer")
+            webRTCClient.receiveOffer(offerSDP: sdp) { sdp in
+                self.signalingClient.send(sdp: sdp)
+            }
+        case .answer:
+            print("answer")
+            webRTCClient.receiveAnswer(answerSDP: sdp)
+        case .prAnswer:
+            print("prAnswer")
+        @unknown default:
+            fatalError("unknown default")
         }
     }
     

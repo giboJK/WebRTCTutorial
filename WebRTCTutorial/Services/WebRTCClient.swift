@@ -86,17 +86,18 @@ final class WebRTCClient: NSObject {
         let pc = WebRTCClient.factory.peerConnection(with: rtcConf,
                                                      constraints: constraints,
                                                      delegate: nil)
+        pc.delegate = self
+        
+        pc.add(localVideoTrack!, streamIds: ["stream0"])
+        pc.add(localAudioTrack!, streamIds: ["stream0"])
+        self.localDataChannel?.delegate = self
+        
         return pc
     }
     
     // MARK: Connect
     func connect(onSuccess: @escaping (RTCSessionDescription) -> Void){
         self.peerConnection = setupPeerConnection()
-        self.peerConnection!.delegate = self
-        
-        self.peerConnection!.add(localVideoTrack!, streamIds: ["stream0"])
-        self.peerConnection!.add(localAudioTrack!, streamIds: ["stream0"])
-        self.localDataChannel?.delegate = self
         
         offer(completion: onSuccess)
     }
@@ -142,8 +143,36 @@ final class WebRTCClient: NSObject {
         }
     }
     
-    func set(remoteSdp: RTCSessionDescription, completion: @escaping (Error?) -> ()) {
-        self.peerConnection?.setRemoteDescription(remoteSdp, completionHandler: completion)
+    func receiveOffer(offerSDP: RTCSessionDescription, completion: @escaping (RTCSessionDescription) -> Void){
+        if peerConnection == nil {
+            print("offer received, create peerconnection")
+            self.peerConnection = setupPeerConnection()
+            self.peerConnection!.delegate = self
+        }
+        
+        print("set remote description")
+        self.peerConnection!.setRemoteDescription(offerSDP) { (err) in
+            if let error = err {
+                print("failed to set remote offer SDP")
+                print(error)
+                return
+            }
+            
+            print("succeed to set remote offer SDP")
+            self.answer(completion: completion)
+        }
+    }
+    
+    func receiveAnswer(answerSDP: RTCSessionDescription){
+        self.peerConnection!.setRemoteDescription(answerSDP) { (err) in
+            if let error = err {
+                print("failed to set remote answer SDP")
+                print(error)
+                return
+            } else {
+                print("RemoteDescription is sucessfully set.")
+            }
+        }
     }
     
     func set(remoteCandidate: RTCIceCandidate) {
