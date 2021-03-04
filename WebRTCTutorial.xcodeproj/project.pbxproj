@@ -18,6 +18,7 @@
 		0848AB0825E8C507003E3951 /* RTCStates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0848AB0725E8C507003E3951 /* RTCStates.swift */; };
 		0848AB2D25E8D06D003E3951 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0848AB2C25E8D06D003E3951 /* MainViewController.swift */; };
 		0848AB3525E8D0CD003E3951 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0848AB3425E8D0CD003E3951 /* Config.swift */; };
+		0890B76825F07E7500BE6AEA /* VideoCallViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0890B76725F07E7500BE6AEA /* VideoCallViewController.swift */; };
 		0894A84825EDD0DD00903C38 /* bigBunny1.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 0894A84725EDD0CB00903C38 /* bigBunny1.mp4 */; };
 		0894A84925EDD0DD00903C38 /* bigBunny2.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 0894A84625EDD0CB00903C38 /* bigBunny2.mp4 */; };
 		0894A85B25EE283D00903C38 /* CameraSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0894A85A25EE283D00903C38 /* CameraSession.swift */; };
@@ -62,6 +63,7 @@
 		0848AB0725E8C507003E3951 /* RTCStates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RTCStates.swift; sourceTree = "<group>"; };
 		0848AB2C25E8D06D003E3951 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		0848AB3425E8D0CD003E3951 /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
+		0890B76725F07E7500BE6AEA /* VideoCallViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCallViewController.swift; sourceTree = "<group>"; };
 		0894A84625EDD0CB00903C38 /* bigBunny2.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = bigBunny2.mp4; sourceTree = "<group>"; };
 		0894A84725EDD0CB00903C38 /* bigBunny1.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = bigBunny1.mp4; sourceTree = "<group>"; };
 		0894A85A25EE283D00903C38 /* CameraSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraSession.swift; sourceTree = "<group>"; };
@@ -152,6 +154,7 @@
 			isa = PBXGroup;
 			children = (
 				0848AB2C25E8D06D003E3951 /* MainViewController.swift */,
+				0890B76725F07E7500BE6AEA /* VideoCallViewController.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -512,6 +515,7 @@
 				0848AAD425E8C1EC003E3951 /* SessionDescription.swift in Sources */,
 				0848AA7625E77F52003E3951 /* WebRTCClient.swift in Sources */,
 				0894A85B25EE283D00903C38 /* CameraSession.swift in Sources */,
+				0890B76825F07E7500BE6AEA /* VideoCallViewController.swift in Sources */,
 				0848AAAE25E8AA95003E3951 /* WebSocketProvider.swift in Sources */,
 				08AC314425EF041E0099419B /* CameraFilter.swift in Sources */,
 				0848AAC925E8B92D003E3951 /* NativeWebSocket.swift in Sources */,

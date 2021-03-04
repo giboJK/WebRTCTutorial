@@ -16,9 +16,6 @@ class MainViewController: UIViewController {
     //MARK: Properties
     var webRTCClient: WebRTCClient!
     var signalingClient: SignalingClient!
-    var tryToConnectWebSocket: Timer!
-    var cameraSession: CameraSession?
-    var webSocket: WebSocket!
     
     
     // You can create video source from CMSampleBuffer :)
@@ -27,8 +24,8 @@ class MainViewController: UIViewController {
     
     
     // MARK: UI
-    var signalingStatusLabel = UILabel()
-    var callButton = UIButton(type: .system)
+    let signalingStatusLabel = UILabel()
+    let callButton = UIButton(type: .system)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,6 +41,10 @@ class MainViewController: UIViewController {
         webRTCClient = WebRTCClient(iceServers: Config.default.webRTCIceServers)
         webRTCClient.delegate = self
         connect()
+    }
+    
+    deinit {
+        print("Deint", self)
     }
     
     func connect() {
@@ -89,6 +90,16 @@ class MainViewController: UIViewController {
             $0.height.equalTo(50)
         }
     }
+    
+    private func moveToVideoCallVC() {
+        DispatchQueue.main.async { [weak self] in
+            let videoCallVC = VideoCallViewController()
+            videoCallVC.modalPresentationStyle = .fullScreen
+            videoCallVC.webRTCClient = self?.webRTCClient
+            videoCallVC.signalingClient = self?.signalingClient
+            self?.present(videoCallVC, animated: true, completion: nil)
+        }
+    }
 }
 
 
@@ -111,6 +122,7 @@ extension MainViewController: SignalClientDelegate {
             print("offer")
             webRTCClient.receiveOffer(offerSDP: sdp) { sdp in
                 self.signalingClient.send(sdp: sdp)
+                self.moveToVideoCallVC()
             }
         case .answer:
             print("answer")
@@ -124,6 +136,9 @@ extension MainViewController: SignalClientDelegate {
     
     func signalClient(_ signalClient: SignalingClient, didReceiveCandidate candidate: RTCIceCandidate) {
         print("signalClient - didReceiveCandidate")
+        // 여러 번 호출 되지 않게 하자
+        webRTCClient.receiveCandidate(remoteCandidate: candidate)
+        self.moveToVideoCallVC()
     }
 }
 
@@ -131,7 +146,7 @@ extension MainViewController: SignalClientDelegate {
 // MARK: WebRTCClientDelegate
 extension MainViewController: WebRTCClientDelegate {
     func webRTCClient(_ client: WebRTCClient, didDiscoverLocalCandidate candidate: RTCIceCandidate) {
-    
+        didGenerateCandidate(iceCandidate: candidate)
     }
     
     func webRTCClient(_ client: WebRTCClient, didChangeConnectionState state: RTCIceConnectionState) {
@@ -148,5 +163,11 @@ extension MainViewController: WebRTCClientDelegate {
     
     func didDisconnectWebRTC() {
     
+    }
+    
+    // MARK: Candidate
+    func didGenerateCandidate(iceCandidate: RTCIceCandidate) {
+        print("discovered local candidate")
+        self.signalingClient.send(candidate: iceCandidate)
     }
 }

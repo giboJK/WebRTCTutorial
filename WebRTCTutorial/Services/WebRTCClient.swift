@@ -175,9 +175,10 @@ final class WebRTCClient: NSObject {
         }
     }
     
-    func set(remoteCandidate: RTCIceCandidate) {
+    func receiveCandidate(remoteCandidate: RTCIceCandidate) {
         self.peerConnection?.add(remoteCandidate)
     }
+    
     
     // MARK: Media
     func startCaptureLocalVideo(renderer: RTCVideoRenderer) {
