@@ -35,6 +35,7 @@ class VideoCallViewController: UIViewController {
         #endif
         
         setupUI()
+        webRTCClient.startLocalVideo()
     }
     
     deinit {
@@ -82,21 +83,32 @@ class VideoCallViewController: UIViewController {
             $0.left.equalTo(view)
             $0.bottom.equalTo(remoteVideoViewContainter)
             $0.height.equalTo(view).multipliedBy(0.3)
-            $0.width.equalTo(view).multipliedBy(0.3)
+            $0.width.equalTo(view.snp.height).multipliedBy(2.7/16)
         }
-        
     }
     
     private func setupRemoteVideoView() {
-        let remoteRenderer = RTCMTLVideoView(frame: self.remoteVideoViewContainter.frame)
-        remoteRenderer.videoContentMode = .scaleAspectFill
-        webRTCClient.renderRemoteVideo(to: remoteRenderer)
+        let remoteVideoView = webRTCClient.remoteVideoView()
+        remoteVideoViewContainter.addSubview(remoteVideoView)
+        
+        remoteVideoView.snp.makeConstraints {
+            $0.top.equalTo(view)
+            $0.left.equalTo(view)
+            $0.right.equalTo(view)
+            $0.height.equalTo(view).multipliedBy(0.7)
+        }
     }
     
     private func setupLocalVideoView() {
-        let localRenderer = RTCMTLVideoView(frame: self.localVideoViewContainter.frame)
-        localRenderer.videoContentMode = .scaleAspectFill
-        self.webRTCClient.startCaptureLocalVideo(renderer: localRenderer)
+        let localVideoView = webRTCClient.localVideoView()
+        localVideoViewContainter.addSubview(localVideoView)
+        
+        localVideoView.snp.makeConstraints {
+            $0.left.equalTo(view)
+            $0.bottom.equalTo(remoteVideoViewContainter)
+            $0.height.equalTo(view).multipliedBy(0.3)
+            $0.width.equalTo(view.snp.height).multipliedBy(2.7/16)
+        }
     }
     
     private func setupBackButton() {

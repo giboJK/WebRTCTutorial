@@ -50,11 +50,19 @@ final class WebRTCClient: NSObject {
     private var localVideoTrack: RTCVideoTrack?
     
     private var remoteVideoTrack: RTCVideoTrack?
+    private var cameraDevicePosition: AVCaptureDevice.Position = .front
     
+    
+    private var localView: UIView!
+    private var localRenderView: RTCEAGLVideoView?
+    private var remoteStream: RTCMediaStream?
+    private var remoteView: UIView!
+    private var remoteRenderView: RTCEAGLVideoView?
     
     // MARK: Data
     private var localDataChannel: RTCDataChannel?
     private var remoteDataChannel: RTCDataChannel?
+    
     
     override init() {
         fatalError("WebRTCClient: init is unavailable")
@@ -64,6 +72,7 @@ final class WebRTCClient: NSObject {
         super.init()
         self.createMediaSenders()
         self.configureAudioSession()
+        self.setupViews()
     }
     
     // MARK: - Private functions
@@ -297,17 +306,17 @@ extension WebRTCClient: RTCPeerConnectionDelegate {
     
     func peerConnection(_ peerConnection: RTCPeerConnection, didAdd stream: RTCMediaStream) {
         debugPrint("peerConnection did add stream")
-//        self.remoteStream = stream
-//
-//        if let track = stream.videoTracks.first {
-//            print("video track faund")
-//            track.add(remoteRenderView!)
-//        }
-//
-//        if let audioTrack = stream.audioTracks.first{
-//            print("audio track faund")
-//            audioTrack.source.volume = 8
-//        }
+        self.remoteStream = stream
+
+        if let track = stream.videoTracks.first {
+            print("video track faund")
+            track.add(remoteRenderView!)
+        }
+
+        if let audioTrack = stream.audioTracks.first{
+            print("audio track faund")
+            audioTrack.source.volume = 8
+        }
     }
     
     func peerConnection(_ peerConnection: RTCPeerConnection, didRemove stream: RTCMediaStream) {
@@ -426,5 +435,80 @@ extension WebRTCClient: RTCDataChannelDelegate {
     
     func dataChannel(_ dataChannel: RTCDataChannel, didReceiveMessageWith buffer: RTCDataBuffer) {
         self.delegate?.webRTCClient(self, didReceiveData: buffer.data)
+    }
+}
+
+extension WebRTCClient: RTCVideoViewDelegate {
+    func videoView(_ videoView: RTCVideoRenderer, didChangeVideoSize size: CGSize) {
+        
+    }
+    
+    private func setupViews() {
+        // local
+        localRenderView = RTCEAGLVideoView()
+        localRenderView!.delegate = self
+        localView = UIView()
+        localView.addSubview(localRenderView!)
+        // remote
+        remoteRenderView = RTCEAGLVideoView()
+        remoteRenderView?.delegate = self
+        remoteView = UIView()
+        remoteView.addSubview(remoteRenderView!)
+    }
+    
+    func localVideoView() -> UIView {
+        return localView
+    }
+    
+    func remoteVideoView() -> UIView {
+        return remoteView
+    }
+    
+    func startLocalVideo() {
+        startCaptureLocalVideo(cameraPositon: self.cameraDevicePosition, videoWidth: 640, videoHeight: 640*16/9, videoFps: 30)
+        self.localVideoTrack?.add(self.localRenderView!)
+    }
+    
+    private func startCaptureLocalVideo(cameraPositon: AVCaptureDevice.Position, videoWidth: Int, videoHeight: Int?, videoFps: Int) {
+        if let capturer = self.videoCapturer as? RTCCameraVideoCapturer {
+            var targetDevice: AVCaptureDevice?
+            var targetFormat: AVCaptureDevice.Format?
+            
+            // find target device
+            let devicies = RTCCameraVideoCapturer.captureDevices()
+            devicies.forEach { (device) in
+                if device.position ==  cameraPositon{
+                    targetDevice = device
+                }
+            }
+            
+            // find target format
+            let formats = RTCCameraVideoCapturer.supportedFormats(for: targetDevice!)
+            formats.forEach { (format) in
+                for _ in format.videoSupportedFrameRateRanges {
+                    let description = format.formatDescription as CMFormatDescription
+                    let dimensions = CMVideoFormatDescriptionGetDimensions(description)
+                    
+                    if dimensions.width == videoWidth && dimensions.height == videoHeight ?? 0{
+                        targetFormat = format
+                    } else if dimensions.width == videoWidth {
+                        targetFormat = format
+                    }
+                }
+            }
+            
+            capturer.startCapture(with: targetDevice!,
+                                  format: targetFormat!,
+                                  fps: videoFps)
+        } else if let capturer = self.videoCapturer as? RTCFileVideoCapturer{
+            print("setup file video capturer")
+            if let _ = Bundle.main.path( forResource: "sample.mp4", ofType: nil ) {
+                capturer.startCapturing(fromFileNamed: "sample.mp4") { (err) in
+                    print(err)
+                }
+            }else{
+                print("file did not faund")
+            }
+        }
     }
 }
