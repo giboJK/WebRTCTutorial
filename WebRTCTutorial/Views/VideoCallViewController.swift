@@ -21,10 +21,12 @@ class VideoCallViewController: UIViewController {
     var useCustomCapturer: Bool = false
     var cameraFilter: CameraFilter?
     
+    
     // MARK: UI
     let backButton = UIButton(type: .system)
     let remoteVideoViewContainter = UIView()
     let localVideoViewContainter = UIView()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,9 +35,9 @@ class VideoCallViewController: UIViewController {
         // simulator does not have camera
         self.useCustomCapturer = false
         #endif
-        
-        setupUI()
+        setupCamera()
         webRTCClient.startLocalVideo()
+        setupUI()
     }
     
     deinit {

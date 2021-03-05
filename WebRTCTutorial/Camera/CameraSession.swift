@@ -23,7 +23,7 @@ class CameraSession: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
         super.init()
     }
     
-    func setupSession(){
+    func setupSession() {
         self.session = AVCaptureSession()
         session?.sessionPreset = AVCaptureSession.Preset.medium
         self.device = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front)

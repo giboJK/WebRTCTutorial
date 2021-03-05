@@ -81,7 +81,13 @@ class MainViewController: UIViewController {
         }
     }
     
+    var isMoved = false
     private func moveToVideoCallVC() {
+        if !isMoved {
+            isMoved = true
+        } else {
+            return
+        }
         DispatchQueue.main.async { [weak self] in
             let videoCallVC = VideoCallViewController()
             videoCallVC.modalPresentationStyle = .fullScreen

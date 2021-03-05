@@ -70,9 +70,9 @@ final class WebRTCClient: NSObject {
     
     required init(iceServers: [String]) {
         super.init()
-        self.createMediaSenders()
-        self.configureAudioSession()
         self.setupViews()
+        self.configureAudioSession()
+        self.createMediaSenders()
     }
     
     // MARK: - Private functions
@@ -264,7 +264,7 @@ final class WebRTCClient: NSObject {
     private func createDataChannel() -> RTCDataChannel? {
         let config = RTCDataChannelConfiguration()
         guard let dataChannel = self.peerConnection?.dataChannel(forLabel: "WebRTCData",
-                                                                configuration: config) else {
+                                                                 configuration: config) else {
             debugPrint("Warning: Couldn't create data channel.")
             return nil
         }
@@ -307,12 +307,12 @@ extension WebRTCClient: RTCPeerConnectionDelegate {
     func peerConnection(_ peerConnection: RTCPeerConnection, didAdd stream: RTCMediaStream) {
         debugPrint("peerConnection did add stream")
         self.remoteStream = stream
-
+        
         if let track = stream.videoTracks.first {
             print("video track faund")
             track.add(remoteRenderView!)
         }
-
+        
         if let audioTrack = stream.audioTracks.first{
             print("audio track faund")
             audioTrack.source.volume = 8
@@ -440,7 +440,34 @@ extension WebRTCClient: RTCDataChannelDelegate {
 
 extension WebRTCClient: RTCVideoViewDelegate {
     func videoView(_ videoView: RTCVideoRenderer, didChangeVideoSize size: CGSize) {
+        let isLandScape = size.width < size.height
+        var renderView: RTCEAGLVideoView?
+        var parentView: UIView?
+        if videoView.isEqual(localRenderView){
+            print("local video size changed")
+            renderView = localRenderView
+            parentView = localView
+        }
         
+        if videoView.isEqual(remoteRenderView!){
+            print("remote video size changed to: ", size)
+            renderView = remoteRenderView
+            parentView = remoteView
+        }
+        
+        guard let _renderView = renderView, let _parentView = parentView else {
+            return
+        }
+        
+        if(isLandScape){
+            let ratio = size.width / size.height
+            _renderView.frame = CGRect(x: 0, y: 0, width: _parentView.frame.height * ratio, height: _parentView.frame.height)
+            _renderView.center.x = _parentView.frame.width/2
+        }else{
+            let ratio = size.height / size.width
+            _renderView.frame = CGRect(x: 0, y: 0, width: _parentView.frame.width, height: _parentView.frame.width * ratio)
+            _renderView.center.y = _parentView.frame.height/2
+        }
     }
     
     private func setupViews() {
@@ -506,7 +533,7 @@ extension WebRTCClient: RTCVideoViewDelegate {
                 capturer.startCapturing(fromFileNamed: "sample.mp4") { (err) in
                     print(err)
                 }
-            }else{
+            } else {
                 print("file did not faund")
             }
         }
