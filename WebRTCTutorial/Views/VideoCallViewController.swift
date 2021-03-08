@@ -98,6 +98,7 @@ class VideoCallViewController: UIViewController, UITextViewDelegate {
     
     private func handleReceivedMessage(_ message: String) {
         debugPrint(message)
+        receivedMessageLabel.text = message
     }
     
     private func startAnimation(_ animationType: String) {
@@ -271,6 +272,7 @@ class VideoCallViewController: UIViewController, UITextViewDelegate {
         view.addSubview(sendButton)
         
         sendButton.setTitle("Send", for: .normal)
+        sendButton.addTarget(self, action: #selector(self.didTapSendButton), for: .touchUpInside)
         sendButton.snp.makeConstraints {
             $0.top.equalTo(sendMessageTextView.snp.bottom).offset(13)
             $0.width.equalTo(80)
@@ -301,6 +303,10 @@ class VideoCallViewController: UIViewController, UITextViewDelegate {
         if let data = starDataString.data(using: String.Encoding.utf8) {
             viewModel.sendData(data)
         }
+    }
+    
+    @objc func didTapSendButton() {
+        viewModel.sendMessage(sendMessageTextView.text)
     }
 }
 

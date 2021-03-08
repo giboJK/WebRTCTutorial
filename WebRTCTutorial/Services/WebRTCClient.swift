@@ -268,6 +268,19 @@ final class WebRTCClient: NSObject {
         self.remoteDataChannel?.sendData(buffer)
     }
     
+    func sendMessage(_ message: String) {
+        if let dataChannel = self.remoteDataChannel {
+            if dataChannel.readyState == .open {
+                let buffer = RTCDataBuffer(data: message.data(using: String.Encoding.utf8)!, isBinary: false)
+                dataChannel.sendData(buffer)
+            } else {
+                print("data channel is not ready state")
+            }
+        } else {
+            print("no data channel")
+        }
+    }
+    
     // MARK: - Connection Events
     private func onConnected() {
         self.isConnected = true

@@ -64,9 +64,13 @@ class WebRTCViewModel {
     }
     
     
-    // MARK: Data
+    // MARK: Send
     func sendData(_ data: Data) {
         webRTCClient.sendData(data)
+    }
+    
+    func sendMessage(_ message: String) {
+        webRTCClient.sendMessage(message)
     }
 }
 
