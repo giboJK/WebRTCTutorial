@@ -44,11 +44,13 @@ class WebRTCViewModel {
         }
     }
     
+    
     // MARK: Candidate
     func didGenerateCandidate(iceCandidate: RTCIceCandidate) {
         debugPrint("discovered local candidate")
         signalingClient.send(candidate: iceCandidate)
     }
+    
     
     // MARK: Video
     func localVideoView() -> UIView {
@@ -57,6 +59,12 @@ class WebRTCViewModel {
     
     func remoteVideoView() -> UIView {
         return webRTCClient.remoteVideoView()
+    }
+    
+    
+    // MARK: Data
+    func sendData(_ data: Data) {
+        webRTCClient.sendData(data)
     }
 }
 

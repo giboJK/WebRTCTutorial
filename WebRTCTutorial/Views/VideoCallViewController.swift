@@ -195,19 +195,19 @@ class VideoCallViewController: UIViewController {
     
     @objc func didTapLikeButton() {
         if let data = likeDataString.data(using: String.Encoding.utf8) {
-//            webRTCClient.sendData(data)
+            viewModel.sendData(data)
         }
     }
     
     @objc func didTapHeartButton() {
         if let data = heartDataString.data(using: String.Encoding.utf8) {
-//            webRTCClient.sendData(data)
+            viewModel.sendData(data)
         }
     }
     
     @objc func didTapStarButton() {
         if let data = starDataString.data(using: String.Encoding.utf8) {
-//            webRTCClient.sendData(data)
+            viewModel.sendData(data)
         }
     }
 }

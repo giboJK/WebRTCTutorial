@@ -346,7 +346,8 @@ extension WebRTCClient: RTCPeerConnectionDelegate {
     
     func peerConnection(_ peerConnection: RTCPeerConnection, didOpen dataChannel: RTCDataChannel) {
         debugPrint("peerConnection did open data channel")
-        self.remoteDataChannel = dataChannel
+        remoteDataChannel = dataChannel
+        remoteDataChannel?.delegate = self
     }
 }
 
