@@ -9,7 +9,7 @@ import UIKit
 import WebRTC
 import SnapKit
 
-class VideoCallViewController: UIViewController {
+class VideoCallViewController: UIViewController, UITextViewDelegate {
     
     //MARK: Properties
     var cameraSession: CameraSession?
@@ -18,6 +18,8 @@ class VideoCallViewController: UIViewController {
     var viewModel: WebRTCViewModel!
     
     var useCustomCapturer: Bool = false
+    let remoteViewRatio = 0.45
+    let localViewRation = 0.2
     
     
     // MARK: UI
@@ -28,6 +30,9 @@ class VideoCallViewController: UIViewController {
     let heartButton = UIButton(type: .custom)
     let starButton = UIButton(type: .custom)
     let receivedEmoticonImageView = UIImageView()
+    let receivedMessageLabel = UILabel()
+    let sendMessageTextView = UITextView()
+    let sendButton = UIButton(type: .system)
     
     
     // MARK: Data
@@ -120,6 +125,10 @@ class VideoCallViewController: UIViewController {
         setupStarButton()
         setupReceivedEmoticonImageView()
         
+        setupReceivedMessageLabel()
+        setupSendTextView()
+        setupSendButton()
+        
         setupBackButton()
     }
     
@@ -131,7 +140,7 @@ class VideoCallViewController: UIViewController {
             $0.left.equalTo(view)
             $0.right.equalTo(view)
             $0.top.equalTo(view)
-            $0.height.equalTo(view).multipliedBy(0.6)
+            $0.height.equalTo(view).multipliedBy(remoteViewRatio)
         }
     }
     
@@ -142,8 +151,8 @@ class VideoCallViewController: UIViewController {
         localVideoViewContainter.snp.makeConstraints {
             $0.left.equalTo(view)
             $0.bottom.equalTo(remoteVideoViewContainter)
-            $0.height.equalTo(view).multipliedBy(0.3)
-            $0.width.equalTo(view.snp.height).multipliedBy(2.7/16)
+            $0.height.equalTo(view).multipliedBy(localViewRation)
+            $0.width.equalTo(view.snp.height).multipliedBy(localViewRation * 9 / 16)
         }
     }
     
@@ -155,7 +164,7 @@ class VideoCallViewController: UIViewController {
             $0.top.equalTo(view)
             $0.left.equalTo(view)
             $0.right.equalTo(view)
-            $0.height.equalTo(view).multipliedBy(0.6)
+            $0.height.equalTo(view).multipliedBy(remoteViewRatio)
         }
     }
     
@@ -188,9 +197,9 @@ class VideoCallViewController: UIViewController {
         likeButton.setImage(UIImage(named: likeDataString), for: .normal)
         likeButton.addTarget(self, action: #selector(didTapLikeButton), for: .touchUpInside)
         likeButton.snp.makeConstraints {
-            $0.top.equalTo(remoteVideoViewContainter.snp.bottom).offset(13)
+            $0.top.equalTo(remoteVideoViewContainter.snp.bottom).offset(8)
             $0.right.equalTo(view).offset(-13)
-            $0.width.height.equalTo(32)
+            $0.width.height.equalTo(30)
         }
     }
     
@@ -200,9 +209,9 @@ class VideoCallViewController: UIViewController {
         heartButton.setImage(UIImage(named: heartDataString), for: .normal)
         heartButton.addTarget(self, action: #selector(didTapHeartButton), for: .touchUpInside)
         heartButton.snp.makeConstraints {
-            $0.top.equalTo(remoteVideoViewContainter.snp.bottom).offset(10)
+            $0.top.equalTo(remoteVideoViewContainter.snp.bottom).offset(8)
             $0.right.equalTo(likeButton.snp.left).offset(-13)
-            $0.width.height.equalTo(32)
+            $0.width.height.equalTo(30)
         }
     }
     
@@ -212,9 +221,9 @@ class VideoCallViewController: UIViewController {
         starButton.setImage(UIImage(named: starDataString), for: .normal)
         starButton.addTarget(self, action: #selector(didTapStarButton), for: .touchUpInside)
         starButton.snp.makeConstraints {
-            $0.top.equalTo(remoteVideoViewContainter.snp.bottom).offset(10)
+            $0.top.equalTo(remoteVideoViewContainter.snp.bottom).offset(8)
             $0.right.equalTo(heartButton.snp.left).offset(-13)
-            $0.width.height.equalTo(32)
+            $0.width.height.equalTo(30)
         }
     }
     
@@ -222,9 +231,51 @@ class VideoCallViewController: UIViewController {
         view.addSubview(receivedEmoticonImageView)
         
         receivedEmoticonImageView.snp.makeConstraints {
-            $0.width.height.equalTo(64)
+            $0.width.height.equalTo(30)
             $0.bottom.equalTo(remoteVideoViewContainter).offset(-13)
             $0.right.equalTo(remoteVideoViewContainter).offset(-13)
+        }
+    }
+    
+    private func setupReceivedMessageLabel() {
+        view.addSubview(receivedMessageLabel)
+        
+        receivedMessageLabel.text = "Received message: "
+        receivedMessageLabel.textColor = .black
+        receivedMessageLabel.layer.borderColor = UIColor.darkGray.cgColor
+        receivedMessageLabel.layer.borderWidth = 1.0
+        receivedMessageLabel.snp.makeConstraints {
+            $0.top.equalTo(remoteVideoViewContainter.snp.bottom).offset(45)
+            $0.left.equalTo(view).offset(13)
+            $0.height.equalTo(32)
+            $0.right.equalTo(view).offset(-13)
+        }
+    }
+    
+    private func setupSendTextView() {
+        view.addSubview(sendMessageTextView)
+        
+        sendMessageTextView.delegate = self
+        sendMessageTextView.text = "Type messages."
+        sendMessageTextView.layer.borderColor = UIColor.darkGray.cgColor
+        sendMessageTextView.layer.borderWidth = 1.0
+        sendMessageTextView.snp.makeConstraints {
+            $0.top.equalTo(receivedMessageLabel.snp.bottom).offset(8)
+            $0.left.equalTo(view).offset(13)
+            $0.height.equalTo(32)
+            $0.right.equalTo(view).offset(-13)
+        }
+    }
+    
+    private func setupSendButton() {
+        view.addSubview(sendButton)
+        
+        sendButton.setTitle("Send", for: .normal)
+        sendButton.snp.makeConstraints {
+            $0.top.equalTo(sendMessageTextView.snp.bottom).offset(13)
+            $0.width.equalTo(80)
+            $0.height.equalTo(32)
+            $0.centerX.equalTo(view)
         }
     }
     
@@ -252,6 +303,19 @@ class VideoCallViewController: UIViewController {
         }
     }
 }
+
+
+// MARK: UITextViewDelegate
+extension VideoCallViewController {
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if text == "\n" {
+            sendMessageTextView.resignFirstResponder()
+            return false
+        }
+        return true
+    }
+}
+
 
 extension VideoCallViewController: CameraSessionDelegate {
     func didOutput(_ sampleBuffer: CMSampleBuffer) {
