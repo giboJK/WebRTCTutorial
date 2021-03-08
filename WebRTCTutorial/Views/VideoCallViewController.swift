@@ -26,6 +26,16 @@ class VideoCallViewController: UIViewController {
     let backButton = UIButton(type: .system)
     let remoteVideoViewContainter = UIView()
     let localVideoViewContainter = UIView()
+    let likeButton = UIButton(type: .custom)
+    let heartButton = UIButton(type: .custom)
+    let starButton = UIButton(type: .custom)
+    let receivedEmoticonImageView = UIImageView()
+    
+    
+    // MARK: Data
+    let likeDataString: String = "like"
+    let heartDataString: String = "heart"
+    let starDataString: String = "star"
     
     
     override func viewDidLoad() {
@@ -62,6 +72,10 @@ class VideoCallViewController: UIViewController {
         setupLocalVideoContainer()
         setupLocalVideoView()
         
+        setupLikeButton()
+        setupHeartButton()
+        setupStarButton()
+        
         setupBackButton()
     }
     
@@ -73,7 +87,7 @@ class VideoCallViewController: UIViewController {
             $0.left.equalTo(view)
             $0.right.equalTo(view)
             $0.top.equalTo(view)
-            $0.height.equalTo(view).multipliedBy(0.7)
+            $0.height.equalTo(view).multipliedBy(0.5)
         }
     }
     
@@ -97,7 +111,7 @@ class VideoCallViewController: UIViewController {
             $0.top.equalTo(view)
             $0.left.equalTo(view)
             $0.right.equalTo(view)
-            $0.height.equalTo(view).multipliedBy(0.7)
+            $0.height.equalTo(view).multipliedBy(0.5)
         }
     }
     
@@ -124,8 +138,72 @@ class VideoCallViewController: UIViewController {
         }
     }
     
+    private func setupLikeButton() {
+        view.addSubview(likeButton)
+        
+        likeButton.setImage(UIImage(named: "like"), for: .normal)
+        likeButton.addTarget(self, action: #selector(didTapLikeButton), for: .touchUpInside)
+        likeButton.snp.makeConstraints {
+            $0.top.equalTo(remoteVideoViewContainter.snp.bottom).offset(13)
+            $0.right.equalTo(view).offset(-13)
+            $0.width.height.equalTo(32)
+        }
+    }
+    
+    private func setupHeartButton() {
+        view.addSubview(heartButton)
+        
+        heartButton.setImage(UIImage(named: "heart"), for: .normal)
+        heartButton.addTarget(self, action: #selector(didTapHeartButton), for: .touchUpInside)
+        heartButton.snp.makeConstraints {
+            $0.top.equalTo(remoteVideoViewContainter.snp.bottom).offset(10)
+            $0.right.equalTo(likeButton.snp.left).offset(-13)
+            $0.width.height.equalTo(32)
+        }
+    }
+    
+    private func setupStarButton() {
+        view.addSubview(starButton)
+        
+        starButton.setImage(UIImage(named: "star"), for: .normal)
+        starButton.addTarget(self, action: #selector(didTapStarButton), for: .touchUpInside)
+        starButton.snp.makeConstraints {
+            $0.top.equalTo(remoteVideoViewContainter.snp.bottom).offset(10)
+            $0.right.equalTo(heartButton.snp.left).offset(-13)
+            $0.width.height.equalTo(32)
+        }
+    }
+    
+    private func setupReceivedEmoticonImageView() {
+        view.addSubview(receivedEmoticonImageView)
+        
+        receivedEmoticonImageView.snp.makeConstraints {
+            $0.width.height.equalTo(64)
+            $0.bottom.equalTo(remoteVideoViewContainter).offset(13)
+            $0.right.equalTo(remoteVideoViewContainter).offset(-13)
+        }
+    }
+    
     @objc func didTapBackButton() {
         dismiss(animated: true, completion: nil)
+    }
+    
+    @objc func didTapLikeButton() {
+        if let data = likeDataString.data(using: String.Encoding.utf8) {
+            webRTCClient.sendData(data)
+        }
+    }
+    
+    @objc func didTapHeartButton() {
+        if let data = heartDataString.data(using: String.Encoding.utf8) {
+            webRTCClient.sendData(data)
+        }
+    }
+    
+    @objc func didTapStarButton() {
+        if let data = starDataString.data(using: String.Encoding.utf8) {
+            webRTCClient.sendData(data)
+        }
     }
 }
 
