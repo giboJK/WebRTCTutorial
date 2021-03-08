@@ -33,6 +33,7 @@ class VideoCallViewController: UIViewController, UITextViewDelegate {
     let receivedMessageLabel = UILabel()
     let sendMessageTextView = UITextView()
     let sendButton = UIButton(type: .system)
+    let hangupButton = UIButton(type: .custom)
     
     
     // MARK: Data
@@ -130,6 +131,7 @@ class VideoCallViewController: UIViewController, UITextViewDelegate {
         setupSendTextView()
         setupSendButton()
         
+        setupHangupButton()
         setupBackButton()
     }
     
@@ -272,18 +274,36 @@ class VideoCallViewController: UIViewController, UITextViewDelegate {
         view.addSubview(sendButton)
         
         sendButton.setTitle("Send", for: .normal)
+        hangupButton.setTitleColor(.white, for: .normal)
+        sendButton.backgroundColor = .gray
         sendButton.addTarget(self, action: #selector(self.didTapSendButton), for: .touchUpInside)
         sendButton.snp.makeConstraints {
             $0.top.equalTo(sendMessageTextView.snp.bottom).offset(13)
             $0.width.equalTo(80)
             $0.height.equalTo(32)
-            $0.centerX.equalTo(view)
+            $0.centerX.equalTo(view).offset(-60)
+        }
+    }
+    
+    private func setupHangupButton() {
+        view.addSubview(hangupButton)
+        
+        hangupButton.setTitle("Hang up", for: .normal)
+        hangupButton.backgroundColor = .red
+        hangupButton.setTitleColor(.white, for: .normal)
+        hangupButton.addTarget(self, action: #selector(self.didTapHangupButton), for: .touchUpInside)
+        hangupButton.snp.makeConstraints {
+            $0.top.equalTo(sendMessageTextView.snp.bottom).offset(13)
+            $0.width.equalTo(80)
+            $0.height.equalTo(32)
+            $0.centerX.equalTo(view).offset(60)
         }
     }
     
     
     // MARK: User Interaction
     @objc func didTapBackButton() {
+        viewModel.disconnect()
         dismiss(animated: true, completion: nil)
     }
     
@@ -307,6 +327,11 @@ class VideoCallViewController: UIViewController, UITextViewDelegate {
     
     @objc func didTapSendButton() {
         viewModel.sendMessage(sendMessageTextView.text)
+    }
+    
+    @objc func didTapHangupButton() {
+        viewModel.disconnect()
+        dismiss(animated: true, completion: nil)
     }
 }
 

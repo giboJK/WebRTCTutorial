@@ -54,7 +54,7 @@ class MainViewController: UIViewController {
     }
     
     @objc func didTapCallButton() {
-        viewModel.makeCalling()
+        viewModel.makeCall()
     }
     
     

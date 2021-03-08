@@ -96,7 +96,7 @@ final class WebRTCClient: NSObject {
     }
     
     
-    // MARK: Connect
+    // MARK: Connection
     func connect(onSuccess: @escaping (RTCSessionDescription) -> Void){
         self.peerConnection = setupPeerConnection()
         
@@ -105,6 +105,10 @@ final class WebRTCClient: NSObject {
             self.localDataChannel = dataChannel
         }
         offer(completion: onSuccess)
+    }
+    
+    func disconnect() {
+        peerConnection?.close()
     }
     
     
