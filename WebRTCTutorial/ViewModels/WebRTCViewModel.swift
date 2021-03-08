@@ -36,8 +36,10 @@ class WebRTCViewModel {
         debugPrint(self, "Deinit")
     }
     
-    private func connectToSignalingServer() {
-        signalingClient.connect()
+    func connectToSignalingServer() {
+        if !isSignalingServerConnected.value {
+            signalingClient.connect()
+        }
     }
     
     func makeCall() {

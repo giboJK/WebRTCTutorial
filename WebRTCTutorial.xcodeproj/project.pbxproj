@@ -23,6 +23,7 @@
 		0894A84825EDD0DD00903C38 /* bigBunny1.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 0894A84725EDD0CB00903C38 /* bigBunny1.mp4 */; };
 		0894A84925EDD0DD00903C38 /* bigBunny2.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 0894A84625EDD0CB00903C38 /* bigBunny2.mp4 */; };
 		0894A85B25EE283D00903C38 /* CameraSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0894A85A25EE283D00903C38 /* CameraSession.swift */; };
+		08A234A425F6EBB6002B0BF5 /* ExampleListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A234A325F6EBB6002B0BF5 /* ExampleListViewController.swift */; };
 		08AC314425EF041E0099419B /* CameraFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08AC314325EF041E0099419B /* CameraFilter.swift */; };
 		08B260CF25F5BDA8008D0782 /* WebRTCViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B260CE25F5BDA8008D0782 /* WebRTCViewModel.swift */; };
 		08B260DB25F5C0FC008D0782 /* Dynamic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B260DA25F5C0FC008D0782 /* Dynamic.swift */; };
@@ -71,6 +72,7 @@
 		0894A84625EDD0CB00903C38 /* bigBunny2.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = bigBunny2.mp4; sourceTree = "<group>"; };
 		0894A84725EDD0CB00903C38 /* bigBunny1.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = bigBunny1.mp4; sourceTree = "<group>"; };
 		0894A85A25EE283D00903C38 /* CameraSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraSession.swift; sourceTree = "<group>"; };
+		08A234A325F6EBB6002B0BF5 /* ExampleListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleListViewController.swift; sourceTree = "<group>"; };
 		08AC314325EF041E0099419B /* CameraFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraFilter.swift; sourceTree = "<group>"; };
 		08B260CE25F5BDA8008D0782 /* WebRTCViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebRTCViewModel.swift; sourceTree = "<group>"; };
 		08B260DA25F5C0FC008D0782 /* Dynamic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dynamic.swift; sourceTree = "<group>"; };
@@ -162,6 +164,7 @@
 			children = (
 				0848AB2C25E8D06D003E3951 /* MainViewController.swift */,
 				0890B76725F07E7500BE6AEA /* VideoCallViewController.swift */,
+				08A234A325F6EBB6002B0BF5 /* ExampleListViewController.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -532,6 +535,7 @@
 				08B301F025E60B3200A4BA26 /* SceneDelegate.swift in Sources */,
 				0848AB2D25E8D06D003E3951 /* MainViewController.swift in Sources */,
 				0848AAD425E8C1EC003E3951 /* SessionDescription.swift in Sources */,
+				08A234A425F6EBB6002B0BF5 /* ExampleListViewController.swift in Sources */,
 				08B260CF25F5BDA8008D0782 /* WebRTCViewModel.swift in Sources */,
 				0848AA7625E77F52003E3951 /* WebRTCClient.swift in Sources */,
 				0894A85B25EE283D00903C38 /* CameraSession.swift in Sources */,

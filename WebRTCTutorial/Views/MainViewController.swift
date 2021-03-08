@@ -54,6 +54,10 @@ class MainViewController: UIViewController {
         print("Deint", self)
     }
     
+    @objc func didTapSignalingConnectServerButton() {
+        viewModel.connectToSignalingServer()
+    }
+    
     @objc func didTapCallButton() {
         viewModel.makeCall()
     }
@@ -84,11 +88,11 @@ class MainViewController: UIViewController {
         
         signalingServerConnectButton.backgroundColor = .yellow
         signalingServerConnectButton.setTitle("Connect to signaling server", for: .normal)
-        signalingServerConnectButton.tintColor = .gray
+        signalingServerConnectButton.addTarget(self, action: #selector(didTapSignalingConnectServerButton), for: .touchUpInside)
         signalingServerConnectButton.snp.makeConstraints {
             $0.centerX.equalTo(view)
             $0.bottom.equalTo(view).offset(-240)
-            $0.width.equalTo(240)
+            $0.width.equalTo(260)
             $0.height.equalTo(60)
         }
     }
