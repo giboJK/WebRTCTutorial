@@ -12,7 +12,8 @@ import WebRTC
 protocol WebRTCClientDelegate: class {
     func webRTCClient(_ client: WebRTCClient, didDiscoverLocalCandidate candidate: RTCIceCandidate)
     func webRTCClient(_ client: WebRTCClient, didChangeConnectionState state: RTCIceConnectionState)
-    func webRTCClient(_ client: WebRTCClient, didReceiveData data: Data)
+    func didReceiveData(data: Data)
+    func didReceiveMessage(message: String)
     func didConnectWebRTC()
     func didDisconnectWebRTC()
 }
@@ -20,14 +21,11 @@ protocol WebRTCClientDelegate: class {
 final class WebRTCClient: NSObject {
     weak var delegate: WebRTCClientDelegate?
     
-    
     // MARK: Status
     public private(set) var isConnected: Bool = false
     
     
     // MARK: PeerConnect
-    // The RTCPeerConnectionFactory is in charge of creating new RTCPeerConnection instances.
-    // A new RTCPeerConnection should be created every new call, but the factory is shared.
     private static let factory: RTCPeerConnectionFactory = {
         RTCInitializeSSL()
         let videoEncoderFactory = RTCDefaultVideoEncoderFactory()
@@ -65,19 +63,14 @@ final class WebRTCClient: NSObject {
     
     
     override init() {
-        fatalError("WebRTCClient: init is unavailable")
-    }
-    
-    required init(iceServers: [String]) {
         super.init()
         self.setupViews()
         self.configureAudioSession()
         self.createMediaSenders()
     }
     
-    // MARK: - Private functions
-    // MARK: - Setup
     
+    // MARK: - Setup
     private func setupPeerConnection() -> RTCPeerConnection{
         let rtcConf = RTCConfiguration()
         rtcConf.iceServers = [RTCIceServer(urlStrings: Config.default.webRTCIceServers)]
@@ -102,16 +95,20 @@ final class WebRTCClient: NSObject {
         return pc
     }
     
+    
     // MARK: Connect
     func connect(onSuccess: @escaping (RTCSessionDescription) -> Void){
         self.peerConnection = setupPeerConnection()
         
+        if let dataChannel = createDataChannel() {
+            dataChannel.delegate = self
+            self.localDataChannel = dataChannel
+        }
         offer(completion: onSuccess)
     }
     
+    
     // MARK: Signaling
-    // peerConnection에서 localDescription의 값을 설정한 후
-    // SignalingServer에 내 SDP를 보낸다
     private func offer(completion: @escaping (_ sdp: RTCSessionDescription) -> Void) {
         let constrains = RTCMediaConstraints(mandatoryConstraints: self.mediaConstrains,
                                              optionalConstraints: nil)
@@ -229,15 +226,8 @@ final class WebRTCClient: NSObject {
     }
     
     private func createMediaSenders() {
-        // MediaTrack
         self.localAudioTrack = createAudioTrack()
         self.localVideoTrack = createVideoTrack()
-        
-        // Data
-        if let dataChannel = createDataChannel() {
-            dataChannel.delegate = self
-            self.localDataChannel = dataChannel
-        }
     }
     
     private func createAudioTrack() -> RTCAudioTrack {
@@ -263,7 +253,8 @@ final class WebRTCClient: NSObject {
     // MARK: Data Channels
     private func createDataChannel() -> RTCDataChannel? {
         let config = RTCDataChannelConfiguration()
-        guard let dataChannel = self.peerConnection?.dataChannel(forLabel: "WebRTCData",
+        config.channelId = 0
+        guard let dataChannel = self.peerConnection?.dataChannel(forLabel: "dataChannel",
                                                                  configuration: config) else {
             debugPrint("Warning: Couldn't create data channel.")
             return nil
@@ -431,10 +422,26 @@ extension WebRTCClient {
 extension WebRTCClient: RTCDataChannelDelegate {
     func dataChannelDidChangeState(_ dataChannel: RTCDataChannel) {
         debugPrint("dataChannel did change state: \(dataChannel.readyState)")
+        switch dataChannel.readyState {
+        case .closed:
+            print("closed")
+        case .closing:
+            print("closing")
+        case .connecting:
+            print("connecting")
+        case .open:
+            print("open")
+        }
     }
     
     func dataChannel(_ dataChannel: RTCDataChannel, didReceiveMessageWith buffer: RTCDataBuffer) {
-        self.delegate?.webRTCClient(self, didReceiveData: buffer.data)
+        DispatchQueue.main.async {
+            if buffer.isBinary {
+                self.delegate?.didReceiveData(data: buffer.data)
+            }else {
+                self.delegate?.didReceiveMessage(message: String(data: buffer.data, encoding: String.Encoding.utf8)!)
+            }
+        }
     }
 }
 
@@ -492,7 +499,7 @@ extension WebRTCClient: RTCVideoViewDelegate {
     }
     
     func startLocalVideo() {
-        startCaptureLocalVideo(cameraPositon: self.cameraDevicePosition, videoWidth: 640, videoHeight: 640*16/9, videoFps: 30)
+        startCaptureLocalVideo(cameraPositon: self.cameraDevicePosition, videoWidth: 640, videoHeight: 640*16/9, videoFps: 60)
         self.localVideoTrack?.add(self.localRenderView!)
     }
     

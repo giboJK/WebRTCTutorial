@@ -1,0 +1,136 @@
+//
+//  WebRTCViewModel.swift
+//  WebRTCTutorial
+//
+//  Created by 정김기보 on 2021/03/08.
+//
+
+import Foundation
+import WebRTC
+
+class WebRTCViewModel {
+    // MARK: DI
+    var signalingClient: SignalingClient!
+    var webRTCClient: WebRTCClient!
+    
+    
+    // MARK: Dynamics
+    var isSignalingServerConnected: Dynamic<Bool> = Dynamic(false)
+    var isCalling: Dynamic<Bool> = Dynamic(false)
+    
+    
+    // MARK: LifeCycle
+    init() {
+        signalingClient = SignalingClient(webSocket: StarscreamWebSocket(url: Config.default.signalingServerUrl))
+        signalingClient.signalClientDelegate = self
+        
+        webRTCClient = WebRTCClient()
+        webRTCClient.delegate = self
+        
+        connectToSignalingServer()
+    }
+    
+    deinit {
+        debugPrint(self, "Deinit")
+    }
+    
+    private func connectToSignalingServer() {
+        signalingClient.connect()
+    }
+    
+    func makeCalling() {
+        webRTCClient.connect { [weak self] offerSDP in
+            self?.signalingClient.send(sdp: offerSDP)
+        }
+    }
+    
+    // MARK: Candidate
+    func didGenerateCandidate(iceCandidate: RTCIceCandidate) {
+        debugPrint("discovered local candidate")
+        signalingClient.send(candidate: iceCandidate)
+    }
+    
+    // MARK: Video
+    func localVideoView() -> UIView {
+        return webRTCClient.localVideoView()
+    }
+    
+    func remoteVideoView() -> UIView {
+        return webRTCClient.remoteVideoView()
+    }
+}
+
+
+extension WebRTCViewModel: SignalClientDelegate {
+    func signalClientDidConnect(_ signalClient: SignalingClient) {
+        isSignalingServerConnected.value = true
+    }
+    
+    func signalClientDidDisconnect(_ signalClient: SignalingClient) {
+        isSignalingServerConnected.value = false
+    }
+    
+    func signalClient(_ signalClient: SignalingClient, didReceiveRemoteSdp sdp: RTCSessionDescription) {
+        switch sdp.type {
+        case .offer:
+            print("offer")
+            webRTCClient.receiveOffer(offerSDP: sdp) { [weak self] sdp in
+                guard let self = self else { return }
+                self.signalingClient.send(sdp: sdp)
+                if !self.isCalling.value {
+                    self.isCalling.value = true
+                }
+            }
+        case .answer:
+            print("answer")
+            webRTCClient.receiveAnswer(answerSDP: sdp)
+        case .prAnswer:
+            print("prAnswer")
+        @unknown default:
+            fatalError("unknown default")
+        }
+    }
+    
+    func signalClient(_ signalClient: SignalingClient, didReceiveCandidate candidate: RTCIceCandidate) {
+        webRTCClient.receiveCandidate(remoteCandidate: candidate)
+        
+        if !self.isCalling.value {
+            self.isCalling.value = true
+        }
+    }
+}
+
+
+extension WebRTCViewModel: WebRTCClientDelegate {
+    func webRTCClient(_ client: WebRTCClient, didDiscoverLocalCandidate candidate: RTCIceCandidate) {
+        didGenerateCandidate(iceCandidate: candidate)
+    }
+    
+    func webRTCClient(_ client: WebRTCClient, didChangeConnectionState state: RTCIceConnectionState) {
+        
+    }
+    
+    func didReceiveData(data: Data) {
+        print(self, "didReceiveData")
+    }
+    
+    func didReceiveMessage(message: String) {
+        print(self, "didReceiveMessage")
+    }
+    
+    func didConnectWebRTC() {
+        
+    }
+    
+    func didDisconnectWebRTC() {
+        
+    }
+}
+
+
+// MARK: Calling
+extension WebRTCViewModel {
+    func startVideo() {
+        webRTCClient.startLocalVideo()
+    }
+}

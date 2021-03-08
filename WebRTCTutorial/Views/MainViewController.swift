@@ -6,48 +6,59 @@
 //
 
 import UIKit
-import WebRTC
-import Starscream
 import SnapKit
 
 class MainViewController: UIViewController {
     
     //MARK: Properties
-    var webRTCClient: WebRTCClient!
-    var signalingClient: SignalingClient!
     
+    var isSignalingClientConnected: Bool = false
+    var isCalling: Bool = false
+    var viewModel: WebRTCViewModel!
     
     
     // MARK: UI
     let signalingStatusLabel = UILabel()
     let callButton = UIButton(type: .system)
     
+    
+    func binding() {
+        viewModel.isSignalingServerConnected.bind { [weak self] isConnected in
+            if isConnected {
+                self?.signalingStatusLabel.text = "Connected to SignalingServer"
+                self?.signalingStatusLabel.textColor = .green
+            } else {
+                self?.signalingStatusLabel.text = "Not connected."
+                self?.signalingStatusLabel.textColor = .systemRed
+            }
+        }
+        
+        viewModel.isCalling.bind { [weak self] isCalling in
+            if isCalling {
+                self?.moveToVideoCallVC()
+            }
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
         
-        signalingClient = SignalingClient(webSocket: StarscreamWebSocket(url: Config.default.signalingServerUrl))
-        signalingClient.signalClientDelegate = self
-        webRTCClient = WebRTCClient(iceServers: Config.default.webRTCIceServers)
-        webRTCClient.delegate = self
-        connect()
+        viewModel = WebRTCViewModel()
+        
+        binding()
     }
     
     deinit {
         print("Deint", self)
     }
     
-    func connect() {
-        signalingClient.connect()
-    }
-    
     @objc func didTapCallButton() {
-        webRTCClient.connect { offerSDP in
-            self.signalingClient.send(sdp: offerSDP)
-        }
+        viewModel.makeCalling()
     }
     
     
+    // MARK: UI
     func setupUI() {
         view.backgroundColor = .white
         
@@ -58,8 +69,6 @@ class MainViewController: UIViewController {
     func setupSignalingStatusLabel() {
         view.addSubview(signalingStatusLabel)
         
-        signalingStatusLabel.text = "Not connected"
-        signalingStatusLabel.textColor = .red
         signalingStatusLabel.font = .systemFont(ofSize: 20)
         signalingStatusLabel.snp.makeConstraints {
             $0.top.equalTo(view).offset(100)
@@ -81,89 +90,12 @@ class MainViewController: UIViewController {
         }
     }
     
-    var isMoved = false
     private func moveToVideoCallVC() {
-        if !isMoved {
-            isMoved = true
-        } else {
-            return
-        }
         DispatchQueue.main.async { [weak self] in
             let videoCallVC = VideoCallViewController()
             videoCallVC.modalPresentationStyle = .fullScreen
-            videoCallVC.webRTCClient = self?.webRTCClient
-            videoCallVC.signalingClient = self?.signalingClient
+            videoCallVC.viewModel = self?.viewModel
             self?.present(videoCallVC, animated: true, completion: nil)
         }
-    }
-}
-
-
-// MARK: SignalClientDelegate
-extension MainViewController: SignalClientDelegate {
-    func signalClientDidConnect(_ signalClient: SignalingClient) {
-        print("signalClientDidConnect")
-        signalingStatusLabel.text = "Connected to SignalingServer"
-        signalingStatusLabel.textColor = .green
-    }
-    
-    func signalClientDidDisconnect(_ signalClient: SignalingClient) {
-        print("signalClientDidDisconnect")
-        signalingStatusLabel.text = "Disconnected to SignalingServer"
-    }
-    
-    func signalClient(_ signalClient: SignalingClient, didReceiveRemoteSdp sdp: RTCSessionDescription) {
-        switch sdp.type {
-        case .offer:
-            print("offer")
-            webRTCClient.receiveOffer(offerSDP: sdp) { sdp in
-                self.signalingClient.send(sdp: sdp)
-                self.moveToVideoCallVC()
-            }
-        case .answer:
-            print("answer")
-            webRTCClient.receiveAnswer(answerSDP: sdp)
-        case .prAnswer:
-            print("prAnswer")
-        @unknown default:
-            fatalError("unknown default")
-        }
-    }
-    
-    func signalClient(_ signalClient: SignalingClient, didReceiveCandidate candidate: RTCIceCandidate) {
-        print("signalClient - didReceiveCandidate")
-        // 여러 번 호출 되지 않게 하자
-        webRTCClient.receiveCandidate(remoteCandidate: candidate)
-        self.moveToVideoCallVC()
-    }
-}
-
-
-// MARK: WebRTCClientDelegate
-extension MainViewController: WebRTCClientDelegate {
-    func webRTCClient(_ client: WebRTCClient, didDiscoverLocalCandidate candidate: RTCIceCandidate) {
-        didGenerateCandidate(iceCandidate: candidate)
-    }
-    
-    func webRTCClient(_ client: WebRTCClient, didChangeConnectionState state: RTCIceConnectionState) {
-        
-    }
-    
-    func webRTCClient(_ client: WebRTCClient, didReceiveData data: Data) {
-        
-    }
-    
-    func didConnectWebRTC() {
-        
-    }
-    
-    func didDisconnectWebRTC() {
-    
-    }
-    
-    // MARK: Candidate
-    func didGenerateCandidate(iceCandidate: RTCIceCandidate) {
-        print("discovered local candidate")
-        self.signalingClient.send(candidate: iceCandidate)
     }
 }

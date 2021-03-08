@@ -12,14 +12,12 @@ import SnapKit
 class VideoCallViewController: UIViewController {
     
     //MARK: Properties
-    var webRTCClient: WebRTCClient!
-    var signalingClient: SignalingClient!
     var cameraSession: CameraSession?
-    
-    
-    // You can create video source from CMSampleBuffer :)
-    var useCustomCapturer: Bool = false
     var cameraFilter: CameraFilter?
+    
+    var viewModel: WebRTCViewModel!
+    
+    var useCustomCapturer: Bool = false
     
     
     // MARK: UI
@@ -38,16 +36,23 @@ class VideoCallViewController: UIViewController {
     let starDataString: String = "star"
     
     
+    func binding() {
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         #if targetEnvironment(simulator)
-        // simulator does not have camera
         self.useCustomCapturer = false
         #endif
+        
         setupCamera()
-        webRTCClient.startLocalVideo()
+        
         setupUI()
+        
+        viewModel.startVideo()
+        
+        binding()
     }
     
     deinit {
@@ -104,9 +109,9 @@ class VideoCallViewController: UIViewController {
     }
     
     private func setupRemoteVideoView() {
-        let remoteVideoView = webRTCClient.remoteVideoView()
+        let remoteVideoView = viewModel.remoteVideoView()
         remoteVideoViewContainter.addSubview(remoteVideoView)
-        
+
         remoteVideoView.snp.makeConstraints {
             $0.top.equalTo(view)
             $0.left.equalTo(view)
@@ -116,9 +121,9 @@ class VideoCallViewController: UIViewController {
     }
     
     private func setupLocalVideoView() {
-        let localVideoView = webRTCClient.localVideoView()
+        let localVideoView = viewModel.localVideoView()
         localVideoViewContainter.addSubview(localVideoView)
-        
+
         localVideoView.snp.makeConstraints {
             $0.left.equalTo(view)
             $0.bottom.equalTo(remoteVideoViewContainter)
@@ -190,19 +195,19 @@ class VideoCallViewController: UIViewController {
     
     @objc func didTapLikeButton() {
         if let data = likeDataString.data(using: String.Encoding.utf8) {
-            webRTCClient.sendData(data)
+//            webRTCClient.sendData(data)
         }
     }
     
     @objc func didTapHeartButton() {
         if let data = heartDataString.data(using: String.Encoding.utf8) {
-            webRTCClient.sendData(data)
+//            webRTCClient.sendData(data)
         }
     }
     
     @objc func didTapStarButton() {
         if let data = starDataString.data(using: String.Encoding.utf8) {
-            webRTCClient.sendData(data)
+//            webRTCClient.sendData(data)
         }
     }
 }
