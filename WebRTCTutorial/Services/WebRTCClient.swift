@@ -103,7 +103,6 @@ final class WebRTCClient: NSObject {
         if let dataChannel = createDataChannel() {
             dataChannel.delegate = self
             self.localDataChannel = dataChannel
-            print("asldkasdlkasdjlasdjldjlasjlsdjljsad")
         }
         offer(completion: onSuccess)
     }
@@ -286,7 +285,6 @@ final class WebRTCClient: NSObject {
             self.peerConnection!.close()
             self.peerConnection = nil
             self.localDataChannel = nil
-            print("lasdjaodjasdj0qjq08j902834295yu9dfj90102eakjalksdjaljalsjldj")
             self.delegate?.didDisconnectWebRTC()
         }
     }
@@ -347,6 +345,7 @@ extension WebRTCClient: RTCPeerConnectionDelegate {
     }
     
     func peerConnection(_ peerConnection: RTCPeerConnection, didOpen dataChannel: RTCDataChannel) {
+        // 이 부분을 어디서 할 지 고민해보자
         if localDataChannel == nil {
             localDataChannel = createDataChannel()
             localDataChannel?.delegate = self
