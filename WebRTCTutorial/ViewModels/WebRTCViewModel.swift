@@ -17,6 +17,8 @@ class WebRTCViewModel {
     // MARK: Dynamics
     var isSignalingServerConnected: Dynamic<Bool> = Dynamic(false)
     var isCalling: Dynamic<Bool> = Dynamic(false)
+    var receivedData: Dynamic<Data?> = Dynamic(nil)
+    var receivedMessage: Dynamic<String?> = Dynamic(nil)
     
     
     // MARK: LifeCycle
@@ -119,11 +121,13 @@ extension WebRTCViewModel: WebRTCClientDelegate {
     }
     
     func didReceiveData(data: Data) {
-        print(self, "didReceiveData")
+        debugPrint(self, "didReceiveData")
+        receivedData.value = data
     }
     
     func didReceiveMessage(message: String) {
-        print(self, "didReceiveMessage")
+        debugPrint(self, "didReceiveMessage")
+        receivedMessage.value = message
     }
     
     func didConnectWebRTC() {

@@ -37,8 +37,21 @@ class VideoCallViewController: UIViewController {
     
     
     func binding() {
+        viewModel.receivedData.bind { [weak self] data in
+            if let data = data {
+                self?.handleReceivedData(data)
+            }
+        }
+        
+        viewModel.receivedMessage.bind { [weak self] message in
+            if let message = message {
+                self?.handleReceivedMessage(message)
+            }
+        }
     }
     
+    
+    // MARK: Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -70,6 +83,31 @@ class VideoCallViewController: UIViewController {
         }
     }
     
+    
+    // MARK: DataChannel
+    private func handleReceivedData(_ data: Data) {
+        if let animationType = String(data: data, encoding: .utf8) {
+            startAnimation(animationType)
+        }
+    }
+    
+    private func handleReceivedMessage(_ message: String) {
+        debugPrint(message)
+    }
+    
+    private func startAnimation(_ animationType: String) {
+        receivedEmoticonImageView.image = UIImage(named: animationType)
+        receivedEmoticonImageView.backgroundColor = UIColor.clear
+        receivedEmoticonImageView.contentMode = .scaleAspectFit
+        receivedEmoticonImageView.alpha = 1.0
+        UIView.animate(withDuration: 0.5, animations: { [weak self] in
+            self?.receivedEmoticonImageView.alpha = 0.0
+        }) { (reuslt) in
+        }
+    }
+    
+    
+    // MARK: UI
     private func setupUI() {
         view.backgroundColor = .white
         setupRemoteVideoContainer()
@@ -80,6 +118,7 @@ class VideoCallViewController: UIViewController {
         setupLikeButton()
         setupHeartButton()
         setupStarButton()
+        setupReceivedEmoticonImageView()
         
         setupBackButton()
     }
@@ -92,7 +131,7 @@ class VideoCallViewController: UIViewController {
             $0.left.equalTo(view)
             $0.right.equalTo(view)
             $0.top.equalTo(view)
-            $0.height.equalTo(view).multipliedBy(0.5)
+            $0.height.equalTo(view).multipliedBy(0.6)
         }
     }
     
@@ -116,7 +155,7 @@ class VideoCallViewController: UIViewController {
             $0.top.equalTo(view)
             $0.left.equalTo(view)
             $0.right.equalTo(view)
-            $0.height.equalTo(view).multipliedBy(0.5)
+            $0.height.equalTo(view).multipliedBy(0.6)
         }
     }
     
@@ -146,7 +185,7 @@ class VideoCallViewController: UIViewController {
     private func setupLikeButton() {
         view.addSubview(likeButton)
         
-        likeButton.setImage(UIImage(named: "like"), for: .normal)
+        likeButton.setImage(UIImage(named: likeDataString), for: .normal)
         likeButton.addTarget(self, action: #selector(didTapLikeButton), for: .touchUpInside)
         likeButton.snp.makeConstraints {
             $0.top.equalTo(remoteVideoViewContainter.snp.bottom).offset(13)
@@ -158,7 +197,7 @@ class VideoCallViewController: UIViewController {
     private func setupHeartButton() {
         view.addSubview(heartButton)
         
-        heartButton.setImage(UIImage(named: "heart"), for: .normal)
+        heartButton.setImage(UIImage(named: heartDataString), for: .normal)
         heartButton.addTarget(self, action: #selector(didTapHeartButton), for: .touchUpInside)
         heartButton.snp.makeConstraints {
             $0.top.equalTo(remoteVideoViewContainter.snp.bottom).offset(10)
@@ -170,7 +209,7 @@ class VideoCallViewController: UIViewController {
     private func setupStarButton() {
         view.addSubview(starButton)
         
-        starButton.setImage(UIImage(named: "star"), for: .normal)
+        starButton.setImage(UIImage(named: starDataString), for: .normal)
         starButton.addTarget(self, action: #selector(didTapStarButton), for: .touchUpInside)
         starButton.snp.makeConstraints {
             $0.top.equalTo(remoteVideoViewContainter.snp.bottom).offset(10)
@@ -184,11 +223,13 @@ class VideoCallViewController: UIViewController {
         
         receivedEmoticonImageView.snp.makeConstraints {
             $0.width.height.equalTo(64)
-            $0.bottom.equalTo(remoteVideoViewContainter).offset(13)
+            $0.bottom.equalTo(remoteVideoViewContainter).offset(-13)
             $0.right.equalTo(remoteVideoViewContainter).offset(-13)
         }
     }
     
+    
+    // MARK: User Interaction
     @objc func didTapBackButton() {
         dismiss(animated: true, completion: nil)
     }

@@ -103,6 +103,7 @@ final class WebRTCClient: NSObject {
         if let dataChannel = createDataChannel() {
             dataChannel.delegate = self
             self.localDataChannel = dataChannel
+            print("asldkasdlkasdjlasdjldjlasjlsdjljsad")
         }
         offer(completion: onSuccess)
     }
@@ -269,7 +270,7 @@ final class WebRTCClient: NSObject {
     }
     
     // MARK: - Connection Events
-    private func onConnected(){
+    private func onConnected() {
         self.isConnected = true
         
         DispatchQueue.main.async {
@@ -277,7 +278,7 @@ final class WebRTCClient: NSObject {
         }
     }
     
-    private func onDisConnected(){
+    private func onDisConnected() {
         self.isConnected = false
         
         DispatchQueue.main.async {
@@ -285,6 +286,7 @@ final class WebRTCClient: NSObject {
             self.peerConnection!.close()
             self.peerConnection = nil
             self.localDataChannel = nil
+            print("lasdjaodjasdj0qjq08j902834295yu9dfj90102eakjalksdjaljalsjldj")
             self.delegate?.didDisconnectWebRTC()
         }
     }
@@ -345,7 +347,10 @@ extension WebRTCClient: RTCPeerConnectionDelegate {
     }
     
     func peerConnection(_ peerConnection: RTCPeerConnection, didOpen dataChannel: RTCDataChannel) {
-        debugPrint("peerConnection did open data channel")
+        if localDataChannel == nil {
+            localDataChannel = createDataChannel()
+            localDataChannel?.delegate = self
+        }
         remoteDataChannel = dataChannel
         remoteDataChannel?.delegate = self
     }
@@ -425,13 +430,13 @@ extension WebRTCClient: RTCDataChannelDelegate {
         debugPrint("dataChannel did change state: \(dataChannel.readyState)")
         switch dataChannel.readyState {
         case .closed:
-            print("closed")
+            break
         case .closing:
-            print("closing")
+            break
         case .connecting:
-            print("connecting")
+            break
         case .open:
-            print("open")
+            break
         }
     }
     
