@@ -54,6 +54,12 @@ class VideoCallViewController: UIViewController, UITextViewDelegate {
                 self?.handleReceivedMessage(message)
             }
         }
+        
+        viewModel.isCalling.bind { [weak self] isCalling in
+            if !isCalling {
+                self?.dismiss(animated: true, completion: nil)
+            }
+        }
     }
     
     
@@ -187,6 +193,7 @@ class VideoCallViewController: UIViewController, UITextViewDelegate {
         view.addSubview(backButton)
         
         backButton.setTitle("Back", for: .normal)
+        backButton.tintColor = .white
         backButton.addTarget(self, action: #selector(didTapBackButton), for: .touchUpInside)
         backButton.snp.makeConstraints {
             $0.left.equalTo(view).offset(20)
@@ -274,7 +281,7 @@ class VideoCallViewController: UIViewController, UITextViewDelegate {
         view.addSubview(sendButton)
         
         sendButton.setTitle("Send", for: .normal)
-        hangupButton.setTitleColor(.white, for: .normal)
+        sendButton.setTitleColor(.white, for: .normal)
         sendButton.backgroundColor = .gray
         sendButton.addTarget(self, action: #selector(self.didTapSendButton), for: .touchUpInside)
         sendButton.snp.makeConstraints {
@@ -290,7 +297,7 @@ class VideoCallViewController: UIViewController, UITextViewDelegate {
         
         hangupButton.setTitle("Hang up", for: .normal)
         hangupButton.backgroundColor = .red
-        hangupButton.setTitleColor(.white, for: .normal)
+        hangupButton.tintColor = .white
         hangupButton.addTarget(self, action: #selector(self.didTapHangupButton), for: .touchUpInside)
         hangupButton.snp.makeConstraints {
             $0.top.equalTo(sendMessageTextView.snp.bottom).offset(13)
@@ -331,7 +338,6 @@ class VideoCallViewController: UIViewController, UITextViewDelegate {
     
     @objc func didTapHangupButton() {
         viewModel.disconnect()
-        dismiss(animated: true, completion: nil)
     }
 }
 

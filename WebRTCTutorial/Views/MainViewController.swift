@@ -19,6 +19,7 @@ class MainViewController: UIViewController {
     
     // MARK: UI
     let signalingStatusLabel = UILabel()
+    let signalingServerConnectButton = UIButton(type: .system)
     let callButton = UIButton(type: .system)
     
     
@@ -26,7 +27,7 @@ class MainViewController: UIViewController {
         viewModel.isSignalingServerConnected.bind { [weak self] isConnected in
             if isConnected {
                 self?.signalingStatusLabel.text = "Connected to SignalingServer"
-                self?.signalingStatusLabel.textColor = .green
+                self?.signalingStatusLabel.textColor = .systemGreen
             } else {
                 self?.signalingStatusLabel.text = "Not connected."
                 self?.signalingStatusLabel.textColor = .systemRed
@@ -63,16 +64,32 @@ class MainViewController: UIViewController {
         view.backgroundColor = .white
         
         setupSignalingStatusLabel()
+        setupSignalingConnectButton()
         setupCallButton()
     }
     
     func setupSignalingStatusLabel() {
         view.addSubview(signalingStatusLabel)
         
-        signalingStatusLabel.font = .systemFont(ofSize: 20)
+        signalingStatusLabel.text = "Finding the signaling server...."
+        signalingStatusLabel.font = .systemFont(ofSize: 25)
         signalingStatusLabel.snp.makeConstraints {
             $0.top.equalTo(view).offset(100)
             $0.left.equalTo(view).offset(20)
+        }
+    }
+    
+    func setupSignalingConnectButton() {
+        view.addSubview(signalingServerConnectButton)
+        
+        signalingServerConnectButton.backgroundColor = .yellow
+        signalingServerConnectButton.setTitle("Connect to signaling server", for: .normal)
+        signalingServerConnectButton.tintColor = .gray
+        signalingServerConnectButton.snp.makeConstraints {
+            $0.centerX.equalTo(view)
+            $0.bottom.equalTo(view).offset(-240)
+            $0.width.equalTo(240)
+            $0.height.equalTo(60)
         }
     }
     
@@ -86,7 +103,7 @@ class MainViewController: UIViewController {
             $0.centerX.equalTo(view)
             $0.bottom.equalTo(view).offset(-120)
             $0.width.equalTo(100)
-            $0.height.equalTo(50)
+            $0.height.equalTo(60)
         }
     }
     

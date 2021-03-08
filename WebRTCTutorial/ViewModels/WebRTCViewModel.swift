@@ -145,7 +145,7 @@ extension WebRTCViewModel: WebRTCClientDelegate {
     }
     
     func didDisconnectWebRTC() {
-        
+        isCalling.value = false
     }
 }
 
