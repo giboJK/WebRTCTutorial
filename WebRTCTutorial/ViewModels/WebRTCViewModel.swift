@@ -71,6 +71,10 @@ class WebRTCViewModel {
         return webRTCClient.remoteVideoView()
     }
     
+    func switchCamera() {
+        webRTCClient.switchCamera()
+    }
+    
     
     // MARK: Send
     func sendData(_ data: Data) {

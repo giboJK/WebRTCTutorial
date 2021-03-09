@@ -23,6 +23,7 @@ class VideoCallViewController: UIViewController, UITextViewDelegate {
     let backButton = UIButton(type: .system)
     let remoteVideoViewContainter = UIView()
     let localVideoViewContainter = UIView()
+    let switchCameraButton = UIButton(type: .custom)
     let likeButton = UIButton(type: .custom)
     let heartButton = UIButton(type: .custom)
     let starButton = UIButton(type: .custom)
@@ -106,6 +107,10 @@ class VideoCallViewController: UIViewController, UITextViewDelegate {
         dismiss(animated: true, completion: nil)
     }
     
+    @objc func didTapSwitchCameraButton() {
+        viewModel.switchCamera()
+    }
+    
     @objc func didTapLikeButton() {
         if let data = likeDataString.data(using: String.Encoding.utf8) {
             viewModel.sendData(data)
@@ -141,6 +146,7 @@ class VideoCallViewController: UIViewController, UITextViewDelegate {
         setupLocalVideoContainer()
         setupLocalVideoView()
         
+        setupSwitchCameraButton()
         setupLikeButton()
         setupHeartButton()
         setupStarButton()
@@ -211,6 +217,18 @@ class VideoCallViewController: UIViewController, UITextViewDelegate {
         backButton.snp.makeConstraints {
             $0.left.equalTo(view).offset(20)
             $0.top.equalTo(view).offset(50)
+        }
+    }
+    
+    private func setupSwitchCameraButton() {
+        view.addSubview(switchCameraButton)
+        
+        switchCameraButton.setImage(UIImage(named: "switch"), for: .normal)
+        switchCameraButton.addTarget(self, action: #selector(didTapSwitchCameraButton), for: .touchUpInside)
+        switchCameraButton.snp.makeConstraints {
+            $0.top.equalTo(remoteVideoViewContainter.snp.bottom).offset(8)
+            $0.left.equalTo(view).offset(13)
+            $0.width.height.equalTo(30)
         }
     }
     

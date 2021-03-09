@@ -262,6 +262,17 @@ final class WebRTCClient: NSObject {
         return videoTrack
     }
     
+    func switchCamera(){
+        if let capturer = self.videoCapturer as? RTCCameraVideoCapturer {
+            capturer.stopCapture {
+                let position = (self.cameraDevicePosition == .front) ? AVCaptureDevice.Position.back : AVCaptureDevice.Position.front
+                self.cameraDevicePosition = position
+                self.startCaptureLocalVideo(cameraPositon: position, videoWidth: 640, videoHeight: 640*16/9, videoFps: 30)
+            }
+        }
+    }
+    
+    
     // MARK: Data Channels
     private func createDataChannel() -> RTCDataChannel? {
         let config = RTCDataChannelConfiguration()

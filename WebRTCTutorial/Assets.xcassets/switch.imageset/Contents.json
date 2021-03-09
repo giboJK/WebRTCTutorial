@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "heart_empty.png",
+      "filename" : "switch.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "heart_empty@2x.png",
+      "filename" : "switch@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "heart_empty@3x.png",
+      "filename" : "switch@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
