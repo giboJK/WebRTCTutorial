@@ -12,9 +12,6 @@ import SnapKit
 class VideoCallViewController: UIViewController, UITextViewDelegate {
     
     //MARK: Properties
-    var cameraSession: CameraSession?
-    var cameraFilter: CameraFilter?
-    
     var viewModel: WebRTCViewModel!
     
     var useCustomCapturer: Bool = false
@@ -67,8 +64,6 @@ class VideoCallViewController: UIViewController, UITextViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupCamera()
-        
         setupUI()
         
         viewModel.startVideo()
@@ -78,20 +73,6 @@ class VideoCallViewController: UIViewController, UITextViewDelegate {
     
     deinit {
         print("Deint", self)
-    }
-    
-    func setupCamera() {
-        #if targetEnvironment(simulator)
-        self.useCustomCapturer = false
-        #endif
-        
-        if useCustomCapturer {
-            self.cameraSession = CameraSession()
-            self.cameraSession?.delegate = self
-            self.cameraSession?.setupSession()
-            
-            self.cameraFilter = CameraFilter()
-        }
     }
     
     
@@ -273,7 +254,7 @@ class VideoCallViewController: UIViewController, UITextViewDelegate {
         view.addSubview(receivedEmoticonImageView)
         
         receivedEmoticonImageView.snp.makeConstraints {
-            $0.width.height.equalTo(30)
+            $0.width.height.equalTo(60)
             $0.bottom.equalTo(remoteVideoViewContainter).offset(-13)
             $0.right.equalTo(remoteVideoViewContainter).offset(-13)
         }
@@ -349,11 +330,5 @@ extension VideoCallViewController {
             return false
         }
         return true
-    }
-}
-
-
-extension VideoCallViewController: CameraSessionDelegate {
-    func didOutput(_ sampleBuffer: CMSampleBuffer) {
     }
 }
