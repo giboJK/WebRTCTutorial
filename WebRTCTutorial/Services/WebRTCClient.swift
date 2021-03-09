@@ -59,10 +59,10 @@ final class WebRTCClient: NSObject {
     
     
     private var localView: UIView!
-    private var localRenderView: RTCEAGLVideoView?
+    private var localRenderView: UIView?
     private var remoteStream: RTCMediaStream?
     private var remoteView: UIView!
-    private var remoteRenderView: RTCEAGLVideoView?
+    private var remoteRenderView: UIView?
     
     
     // MARK: Data Channel
@@ -326,7 +326,7 @@ extension WebRTCClient: RTCPeerConnectionDelegate {
         
         if let track = stream.videoTracks.first {
             print("video track faund")
-            track.add(remoteRenderView!)
+            track.add(remoteRenderView! as! RTCVideoRenderer)
         }
         
         if let audioTrack = stream.audioTracks.first{
@@ -478,16 +478,16 @@ extension WebRTCClient: RTCDataChannelDelegate {
 extension WebRTCClient: RTCVideoViewDelegate {
     func videoView(_ videoView: RTCVideoRenderer, didChangeVideoSize size: CGSize) {
         let isLandScape = size.width < size.height
-        var renderView: RTCEAGLVideoView?
+        var renderView: UIView?
         var parentView: UIView?
         if videoView.isEqual(localRenderView){
-            print("local video size changed")
+            debugPrint("local video size changed")
             renderView = localRenderView
             parentView = localView
         }
         
         if videoView.isEqual(remoteRenderView!){
-            print("remote video size changed to: ", size)
+            debugPrint("remote video size changed to: ", size)
             renderView = remoteRenderView
             parentView = remoteView
         }
@@ -508,19 +508,40 @@ extension WebRTCClient: RTCVideoViewDelegate {
     }
     
     private func setupViews() {
-        // local
-        localRenderView = RTCEAGLVideoView()
-        localRenderView!.delegate = self
+        setupLocalView()
+        setupRemoteView()
+    }
+    
+    private func setupLocalView() {
+        #if arch(arm64)
+        let rtcMTLVideoView = RTCMTLVideoView()
+        rtcMTLVideoView.delegate = self
+        localRenderView = rtcMTLVideoView
+        #else
+        let rtcEAGLVideoView = RTCEAGLVideoView()
+        rtcEAGLVideoView.delegate = self
+        localRenderView = rtcEAGLVideoView
+        #endif
         localView = UIView()
         localView.addSubview(localRenderView!)
-        // remote
-        remoteRenderView = RTCEAGLVideoView()
-        remoteRenderView?.delegate = self
+    }
+    
+    private func setupRemoteView() {
+        #if arch(arm64)
+        let rtcMTLVideoView = RTCMTLVideoView()
+        rtcMTLVideoView.delegate = self
+        remoteRenderView = rtcMTLVideoView
+        #else
+        let rtcEAGLVideoView = RTCEAGLVideoView()
+        rtcEAGLVideoView.delegate = self
+        remoteRenderView = rtcEAGLVideoView
+        #endif
         remoteView = UIView()
         remoteView.addSubview(remoteRenderView!)
     }
     
     func localVideoView() -> UIView {
+        
         return localView
     }
     
@@ -530,7 +551,7 @@ extension WebRTCClient: RTCVideoViewDelegate {
     
     func startLocalVideo() {
         startCaptureLocalVideo(cameraPositon: self.cameraDevicePosition, videoWidth: 640, videoHeight: 640*16/9, videoFps: 30)
-        self.localVideoTrack?.add(self.localRenderView!)
+        self.localVideoTrack?.add(self.localRenderView! as! RTCVideoRenderer)
     }
     
     private func startCaptureLocalVideo(cameraPositon: AVCaptureDevice.Position, videoWidth: Int, videoHeight: Int?, videoFps: Int) {
