@@ -19,7 +19,7 @@ class VideoCallViewController: UIViewController, UITextViewDelegate {
     
     var useCustomCapturer: Bool = false
     let remoteViewRatio = 0.45
-    let localViewRation = 0.2
+    let localViewRatio = 0.15
     
     
     // MARK: UI
@@ -192,8 +192,8 @@ class VideoCallViewController: UIViewController, UITextViewDelegate {
         localVideoViewContainter.snp.makeConstraints {
             $0.left.equalTo(view)
             $0.bottom.equalTo(remoteVideoViewContainter)
-            $0.height.equalTo(view).multipliedBy(localViewRation)
-            $0.width.equalTo(view.snp.height).multipliedBy(localViewRation * 9 / 16)
+            $0.width.equalTo(view.snp.height).multipliedBy(localViewRatio)
+            $0.height.equalTo(view).multipliedBy(localViewRatio)
         }
     }
     
@@ -216,8 +216,8 @@ class VideoCallViewController: UIViewController, UITextViewDelegate {
         localVideoView.snp.makeConstraints {
             $0.left.equalTo(view)
             $0.bottom.equalTo(remoteVideoViewContainter)
-            $0.height.equalTo(view).multipliedBy(0.3)
-            $0.width.equalTo(view.snp.height).multipliedBy(2.7/16)
+            $0.width.equalTo(view.snp.height).multipliedBy(localViewRatio)
+            $0.height.equalTo(view).multipliedBy(localViewRatio)
         }
     }
     

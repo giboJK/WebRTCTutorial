@@ -28,8 +28,15 @@ final class WebRTCClient: NSObject {
     // MARK: PeerConnect
     private static let factory: RTCPeerConnectionFactory = {
         RTCInitializeSSL()
-        let videoEncoderFactory = RTCDefaultVideoEncoderFactory()
-        let videoDecoderFactory = RTCDefaultVideoDecoderFactory()
+        var videoEncoderFactory = RTCDefaultVideoEncoderFactory()
+        var videoDecoderFactory = RTCDefaultVideoDecoderFactory()
+        
+        if TARGET_OS_SIMULATOR != 0 {
+            print("setup vp8 codec")
+            videoEncoderFactory = RTCSimluatorVideoEncoderFactory()
+            videoDecoderFactory = RTCSimulatorVideoDecoderFactory()
+        }
+        
         return RTCPeerConnectionFactory(encoderFactory: videoEncoderFactory, decoderFactory: videoDecoderFactory)
     }()
     private var peerConnection: RTCPeerConnection?
@@ -57,7 +64,8 @@ final class WebRTCClient: NSObject {
     private var remoteView: UIView!
     private var remoteRenderView: RTCEAGLVideoView?
     
-    // MARK: Data
+    
+    // MARK: Data Channel
     private var localDataChannel: RTCDataChannel?
     private var remoteDataChannel: RTCDataChannel?
     
@@ -244,11 +252,11 @@ final class WebRTCClient: NSObject {
     private func createVideoTrack() -> RTCVideoTrack {
         let videoSource = WebRTCClient.factory.videoSource()
         
-        #if TARGET_OS_SIMULATOR
-        self.videoCapturer = RTCFileVideoCapturer(webSocketProviderDelegate: videoSource)
-        #else
-        self.videoCapturer = RTCCameraVideoCapturer(delegate: videoSource)
-        #endif
+        if TARGET_OS_SIMULATOR != 0 {
+            self.videoCapturer = RTCFileVideoCapturer(delegate: videoSource)
+        } else {
+            self.videoCapturer = RTCCameraVideoCapturer(delegate: videoSource)
+        }
         
         let videoTrack = WebRTCClient.factory.videoTrack(with: videoSource, trackId: "video0")
         return videoTrack
@@ -521,7 +529,7 @@ extension WebRTCClient: RTCVideoViewDelegate {
     }
     
     func startLocalVideo() {
-        startCaptureLocalVideo(cameraPositon: self.cameraDevicePosition, videoWidth: 640, videoHeight: 640*16/9, videoFps: 60)
+        startCaptureLocalVideo(cameraPositon: self.cameraDevicePosition, videoWidth: 640, videoHeight: 640*16/9, videoFps: 30)
         self.localVideoTrack?.add(self.localRenderView!)
     }
     
@@ -558,8 +566,8 @@ extension WebRTCClient: RTCVideoViewDelegate {
                                   fps: videoFps)
         } else if let capturer = self.videoCapturer as? RTCFileVideoCapturer{
             print("setup file video capturer")
-            if let _ = Bundle.main.path( forResource: "sample.mp4", ofType: nil ) {
-                capturer.startCapturing(fromFileNamed: "sample.mp4") { (err) in
+            if let _ = Bundle.main.path( forResource: "bigBunny1.mp4", ofType: nil ) {
+                capturer.startCapturing(fromFileNamed: "bigBunny1.mp4") { (err) in
                     print(err)
                 }
             } else {
