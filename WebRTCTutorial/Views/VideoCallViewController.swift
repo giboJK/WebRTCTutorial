@@ -67,10 +67,6 @@ class VideoCallViewController: UIViewController, UITextViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        #if targetEnvironment(simulator)
-        self.useCustomCapturer = false
-        #endif
-        
         setupCamera()
         
         setupUI()
@@ -85,8 +81,11 @@ class VideoCallViewController: UIViewController, UITextViewDelegate {
     }
     
     func setupCamera() {
+        #if targetEnvironment(simulator)
+        self.useCustomCapturer = false
+        #endif
+        
         if useCustomCapturer {
-            print("--- use custom capturer ---")
             self.cameraSession = CameraSession()
             self.cameraSession?.delegate = self
             self.cameraSession?.setupSession()
@@ -117,6 +116,39 @@ class VideoCallViewController: UIViewController, UITextViewDelegate {
             self?.receivedEmoticonImageView.alpha = 0.0
         }) { (reuslt) in
         }
+    }
+    
+    
+    // MARK: User Interaction
+    @objc func didTapBackButton() {
+        viewModel.disconnect()
+        dismiss(animated: true, completion: nil)
+    }
+    
+    @objc func didTapLikeButton() {
+        if let data = likeDataString.data(using: String.Encoding.utf8) {
+            viewModel.sendData(data)
+        }
+    }
+    
+    @objc func didTapHeartButton() {
+        if let data = heartDataString.data(using: String.Encoding.utf8) {
+            viewModel.sendData(data)
+        }
+    }
+    
+    @objc func didTapStarButton() {
+        if let data = starDataString.data(using: String.Encoding.utf8) {
+            viewModel.sendData(data)
+        }
+    }
+    
+    @objc func didTapSendButton() {
+        viewModel.sendMessage(sendMessageTextView.text)
+    }
+    
+    @objc func didTapHangupButton() {
+        viewModel.disconnect()
     }
     
     
@@ -305,39 +337,6 @@ class VideoCallViewController: UIViewController, UITextViewDelegate {
             $0.height.equalTo(32)
             $0.centerX.equalTo(view).offset(60)
         }
-    }
-    
-    
-    // MARK: User Interaction
-    @objc func didTapBackButton() {
-        viewModel.disconnect()
-        dismiss(animated: true, completion: nil)
-    }
-    
-    @objc func didTapLikeButton() {
-        if let data = likeDataString.data(using: String.Encoding.utf8) {
-            viewModel.sendData(data)
-        }
-    }
-    
-    @objc func didTapHeartButton() {
-        if let data = heartDataString.data(using: String.Encoding.utf8) {
-            viewModel.sendData(data)
-        }
-    }
-    
-    @objc func didTapStarButton() {
-        if let data = starDataString.data(using: String.Encoding.utf8) {
-            viewModel.sendData(data)
-        }
-    }
-    
-    @objc func didTapSendButton() {
-        viewModel.sendMessage(sendMessageTextView.text)
-    }
-    
-    @objc func didTapHangupButton() {
-        viewModel.disconnect()
     }
 }
 

@@ -11,9 +11,6 @@ import SnapKit
 class MainViewController: UIViewController {
     
     //MARK: Properties
-    
-    var isSignalingClientConnected: Bool = false
-    var isCalling: Bool = false
     var viewModel: WebRTCViewModel!
     
     
@@ -41,6 +38,8 @@ class MainViewController: UIViewController {
         }
     }
     
+    
+    // MARK: Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
@@ -54,6 +53,8 @@ class MainViewController: UIViewController {
         print("Deint", self)
     }
     
+    
+    // MARK: User Interaction
     @objc func didTapSignalingConnectServerButton() {
         viewModel.connectToSignalingServer()
     }
@@ -62,6 +63,14 @@ class MainViewController: UIViewController {
         viewModel.makeCall()
     }
     
+    private func moveToVideoCallVC() {
+        DispatchQueue.main.async { [weak self] in
+            let videoCallVC = VideoCallViewController()
+            videoCallVC.modalPresentationStyle = .fullScreen
+            videoCallVC.viewModel = self?.viewModel
+            self?.present(videoCallVC, animated: true, completion: nil)
+        }
+    }
     
     // MARK: UI
     func setupUI() {
@@ -77,6 +86,7 @@ class MainViewController: UIViewController {
         
         signalingStatusLabel.text = "Finding the signaling server...."
         signalingStatusLabel.font = .systemFont(ofSize: 25)
+        signalingStatusLabel.textColor = .black
         signalingStatusLabel.snp.makeConstraints {
             $0.top.equalTo(view).offset(100)
             $0.left.equalTo(view).offset(20)
@@ -108,15 +118,6 @@ class MainViewController: UIViewController {
             $0.bottom.equalTo(view).offset(-120)
             $0.width.equalTo(100)
             $0.height.equalTo(60)
-        }
-    }
-    
-    private func moveToVideoCallVC() {
-        DispatchQueue.main.async { [weak self] in
-            let videoCallVC = VideoCallViewController()
-            videoCallVC.modalPresentationStyle = .fullScreen
-            videoCallVC.viewModel = self?.viewModel
-            self?.present(videoCallVC, animated: true, completion: nil)
         }
     }
 }
