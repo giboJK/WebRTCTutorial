@@ -9,7 +9,7 @@ import UIKit
 import WebRTC
 import SnapKit
 
-class VideoCallViewController: UIViewController, UITextViewDelegate {
+class VideoCallViewController: UIViewController, UITextViewDelegate, UIImagePickerControllerDelegate & UINavigationControllerDelegate {
     
     //MARK: Properties
     var viewModel: WebRTCViewModel!
@@ -18,12 +18,15 @@ class VideoCallViewController: UIViewController, UITextViewDelegate {
     let remoteViewRatio = 0.45
     let localViewRatio = 0.15
     
+    private let imagePickerController = UIImagePickerController()
+    
     
     // MARK: UI
     let backButton = UIButton(type: .system)
     let remoteVideoViewContainter = UIView()
     let localVideoViewContainter = UIView()
     let switchCameraButton = UIButton(type: .custom)
+    let imagePickerOpenButton = UIButton(type: .custom)
     let likeButton = UIButton(type: .custom)
     let heartButton = UIButton(type: .custom)
     let starButton = UIButton(type: .custom)
@@ -66,6 +69,8 @@ class VideoCallViewController: UIViewController, UITextViewDelegate {
         super.viewDidLoad()
         
         setupUI()
+        
+        imagePickerController.delegate = self
         
         viewModel.startVideo()
         
@@ -111,6 +116,16 @@ class VideoCallViewController: UIViewController, UITextViewDelegate {
         viewModel.switchCamera()
     }
     
+    @objc func didTapImagePickerOpenButton() {
+        let type = UIImagePickerController.SourceType.photoLibrary
+        guard UIImagePickerController.isSourceTypeAvailable(type) else { return }
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            self.imagePickerController.sourceType = type
+            self.present(self.imagePickerController, animated: true)
+        }
+    }
+    
     @objc func didTapLikeButton() {
         if let data = likeDataString.data(using: String.Encoding.utf8) {
             viewModel.sendData(data)
@@ -147,6 +162,7 @@ class VideoCallViewController: UIViewController, UITextViewDelegate {
         setupLocalVideoView()
         
         setupSwitchCameraButton()
+        setupImagePickerButton()
         setupLikeButton()
         setupHeartButton()
         setupStarButton()
@@ -228,6 +244,18 @@ class VideoCallViewController: UIViewController, UITextViewDelegate {
         switchCameraButton.snp.makeConstraints {
             $0.top.equalTo(remoteVideoViewContainter.snp.bottom).offset(8)
             $0.left.equalTo(view).offset(13)
+            $0.width.height.equalTo(30)
+        }
+    }
+    
+    private func setupImagePickerButton() {
+        view.addSubview(imagePickerOpenButton)
+        
+        imagePickerOpenButton.setImage(UIImage(named: "image_select"), for: .normal)
+        imagePickerOpenButton.addTarget(self, action: #selector(didTapImagePickerOpenButton), for: .touchUpInside)
+        imagePickerOpenButton.snp.makeConstraints {
+            $0.top.equalTo(remoteVideoViewContainter.snp.bottom).offset(8)
+            $0.left.equalTo(switchCameraButton.snp.right).offset(13)
             $0.width.height.equalTo(30)
         }
     }
