@@ -84,6 +84,10 @@ class WebRTCViewModel {
     func sendMessage(_ message: String) {
         webRTCClient.sendMessage(message)
     }
+    
+    func sendFileImage(to imageData: Data, name: String) {
+        
+    }
 }
 
 
@@ -137,12 +141,10 @@ extension WebRTCViewModel: WebRTCClientDelegate {
     }
     
     func didReceiveData(data: Data) {
-        debugPrint(self, "didReceiveData")
         receivedData.value = data
     }
     
     func didReceiveMessage(message: String) {
-        debugPrint(self, "didReceiveMessage")
         receivedMessage.value = message
     }
     

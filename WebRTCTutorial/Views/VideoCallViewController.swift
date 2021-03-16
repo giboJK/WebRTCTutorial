@@ -9,7 +9,7 @@ import UIKit
 import WebRTC
 import SnapKit
 
-class VideoCallViewController: UIViewController, UITextViewDelegate, UIImagePickerControllerDelegate & UINavigationControllerDelegate {
+class VideoCallViewController: UIViewController, UITextViewDelegate {
     
     //MARK: Properties
     var viewModel: WebRTCViewModel!
@@ -376,5 +376,17 @@ extension VideoCallViewController {
             return false
         }
         return true
+    }
+}
+
+// MARK: UIImagePickerControllerDelegate & UINavigationControllerDelegate
+extension VideoCallViewController: UIImagePickerControllerDelegate & UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        guard let originImage = info[.originalImage] as? UIImage else { return }
+        let fileName = (info[UIImagePickerController.InfoKey.imageURL] as? URL)?.lastPathComponent ?? ""
+        if let imageData = originImage.jpegData(compressionQuality: 0.1) {
+            viewModel.sendFileImage(to: imageData, name: fileName)
+        }
+        picker.dismiss(animated: true, completion: nil)
     }
 }

@@ -29,7 +29,6 @@ class StarscreamWebSocket: WebSocketProvider {
 
 extension StarscreamWebSocket: Starscream.WebSocketDelegate {
     func didReceive(event: WebSocketEvent, client: WebSocket) {
-        debugPrint("didReceive")
         switch event {
         case .connected(let strings):
             print(strings)

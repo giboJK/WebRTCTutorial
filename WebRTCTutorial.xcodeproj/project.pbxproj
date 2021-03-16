@@ -25,6 +25,7 @@
 		08A234A425F6EBB6002B0BF5 /* ExampleListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A234A325F6EBB6002B0BF5 /* ExampleListViewController.swift */; };
 		08A234A925F7063D002B0BF5 /* RTCSimluatorVideoEncoderFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A234A825F7063D002B0BF5 /* RTCSimluatorVideoEncoderFactory.swift */; };
 		08A234AE25F70653002B0BF5 /* RTCSimulatorVideoDecorderFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A234AD25F70653002B0BF5 /* RTCSimulatorVideoDecorderFactory.swift */; };
+		08A9DAB526006DD00005CC4B /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A9DAB426006DD00005CC4B /* Log.swift */; };
 		08B260CF25F5BDA8008D0782 /* WebRTCViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B260CE25F5BDA8008D0782 /* WebRTCViewModel.swift */; };
 		08B260DB25F5C0FC008D0782 /* Dynamic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B260DA25F5C0FC008D0782 /* Dynamic.swift */; };
 		08B301EE25E60B3200A4BA26 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B301ED25E60B3200A4BA26 /* AppDelegate.swift */; };
@@ -74,6 +75,7 @@
 		08A234A325F6EBB6002B0BF5 /* ExampleListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleListViewController.swift; sourceTree = "<group>"; };
 		08A234A825F7063D002B0BF5 /* RTCSimluatorVideoEncoderFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RTCSimluatorVideoEncoderFactory.swift; sourceTree = "<group>"; };
 		08A234AD25F70653002B0BF5 /* RTCSimulatorVideoDecorderFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RTCSimulatorVideoDecorderFactory.swift; sourceTree = "<group>"; };
+		08A9DAB426006DD00005CC4B /* Log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
 		08B260CE25F5BDA8008D0782 /* WebRTCViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebRTCViewModel.swift; sourceTree = "<group>"; };
 		08B260DA25F5C0FC008D0782 /* Dynamic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dynamic.swift; sourceTree = "<group>"; };
 		08B301EA25E60B3200A4BA26 /* WebRTCTutorial.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WebRTCTutorial.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -195,6 +197,14 @@
 			path = Camera;
 			sourceTree = "<group>";
 		};
+		08A9DAA926006D9D0005CC4B /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				08A9DAB426006DD00005CC4B /* Log.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
 		08B260CD25F5BD9B008D0782 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
@@ -228,6 +238,7 @@
 		08B301EC25E60B3200A4BA26 /* WebRTCTutorial */ = {
 			isa = PBXGroup;
 			children = (
+				08A9DAA926006D9D0005CC4B /* Utils */,
 				08B260CD25F5BD9B008D0782 /* ViewModels */,
 				0894A85925EE283000903C38 /* Camera */,
 				0894A84425EDD0AF00903C38 /* Assets */,
@@ -528,6 +539,7 @@
 			files = (
 				0848AAA525E8A6A7003E3951 /* SignalingClient.swift in Sources */,
 				08B301EE25E60B3200A4BA26 /* AppDelegate.swift in Sources */,
+				08A9DAB526006DD00005CC4B /* Log.swift in Sources */,
 				0848AB0825E8C507003E3951 /* RTCStates.swift in Sources */,
 				08B260DB25F5C0FC008D0782 /* Dynamic.swift in Sources */,
 				0848AB3525E8D0CD003E3951 /* Config.swift in Sources */,
@@ -724,6 +736,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.jkkb.WebRTCTutorial;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG ENABLE_LOG";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

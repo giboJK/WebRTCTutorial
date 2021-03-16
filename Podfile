@@ -10,6 +10,8 @@ target 'WebRTCTutorial' do
   pod 'GoogleWebRTC'
   pod 'Starscream'
   
+  pod 'SwiftyBeaver'
+  
   target 'WebRTCTutorialTests' do
     inherit! :search_paths
     # Pods for testing
