@@ -43,6 +43,7 @@ final class SignalingClient {
     }
     
     func send(candidate rtcIceCandidate: RTCIceCandidate) {
+        Log.i("send(candidate rtcIceCandidate: RTCIceCandidate)")
         let message = Message.candidate(IceCandidate(from: rtcIceCandidate))
         do {
             let dataMessage = try self.encoder.encode(message)
@@ -56,6 +57,7 @@ final class SignalingClient {
 
 extension SignalingClient: WebSocketProviderDelegate {
     func webSocketDidConnect(_ webSocket: WebSocketProvider) {
+        Log.i("webSocketDidConnect(_ webSocket: WebSocketProvider)")
         self.signalClientDelegate?.signalClientDidConnect(self)
     }
     
@@ -70,6 +72,7 @@ extension SignalingClient: WebSocketProviderDelegate {
     }
     
     func webSocket(_ webSocket: WebSocketProvider, didReceiveData data: Data) {
+        Log.i("webSocket(_ webSocket: WebSocketProvider, didReceiveData data: Data)")
         let message: Message
         do {
             message = try self.decoder.decode(Message.self, from: data)

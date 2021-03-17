@@ -35,8 +35,8 @@ extension SwiftyBeaver {
         destination.levelString.error   = ""
 
         destination.levelColor.verbose = "" //"🟣"
-        destination.levelColor.debug   = "" //"🟢"
-        destination.levelColor.info    = "" //"🔵"
+        destination.levelColor.debug   = "🟢debug "
+        destination.levelColor.info    = "🔵info "
         destination.levelColor.warning = "🟡warning "
         destination.levelColor.error   = "🔴error "
         

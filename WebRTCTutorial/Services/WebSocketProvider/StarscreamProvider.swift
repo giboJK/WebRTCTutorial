@@ -29,23 +29,22 @@ class StarscreamWebSocket: WebSocketProvider {
 
 extension StarscreamWebSocket: Starscream.WebSocketDelegate {
     func didReceive(event: WebSocketEvent, client: WebSocket) {
+        Log.i(event)
         switch event {
-        case .connected(let strings):
-            print(strings)
+        case .connected(_):
             self.webSocketProviderDelegate?.webSocketDidConnect(self)
-        case .disconnected(let reason, let code):
-            print(reason, code)
+        case .disconnected(_, _):
             self.webSocketProviderDelegate?.webSocketDidDisconnect(self)
         case .cancelled:
-            print("cancelled")
-        case .error(let error):
-            print("error \(error.debugDescription)")
-        case .text(let str):
-            print("text?? \(str)")
+            break
+        case .error(_):
+            break
+        case .text(_):
+            break
         case .binary(let data):
             self.webSocketProviderDelegate?.webSocket(self, didReceiveData: data)
         default:
-            print("Event default")
+            break
         }
     }
 }

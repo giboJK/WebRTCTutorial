@@ -179,14 +179,13 @@ final class WebRTCClient: NSObject {
         }
     }
     
-    func receiveAnswer(answerSDP: RTCSessionDescription){
+    func receiveAnswer(answerSDP: RTCSessionDescription) {
         self.peerConnection!.setRemoteDescription(answerSDP) { (err) in
             if let error = err {
-                print("failed to set remote answer SDP")
-                print(error)
+                Log.e(error)
                 return
             } else {
-                print("RemoteDescription is sucessfully set.")
+                Log.i("RemoteDescription is sucessfully set.")
             }
         }
     }

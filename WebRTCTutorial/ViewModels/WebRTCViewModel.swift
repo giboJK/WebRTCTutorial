@@ -55,7 +55,7 @@ class WebRTCViewModel {
     
     // MARK: Candidate
     func didGenerateCandidate(iceCandidate: RTCIceCandidate) {
-        debugPrint("discovered local candidate")
+        Log.i("didGenerateCandidate(iceCandidate: RTCIceCandidate)")
         signalingClient.send(candidate: iceCandidate)
     }
     
@@ -101,7 +101,7 @@ extension WebRTCViewModel: SignalClientDelegate {
     func signalClient(_ signalClient: SignalingClient, didReceiveRemoteSdp sdp: RTCSessionDescription) {
         switch sdp.type {
         case .offer:
-            print("offer")
+            Log.i("offer")
             webRTCClient.receiveOffer(offerSDP: sdp) { [weak self] sdp in
                 guard let self = self else { return }
                 self.signalingClient.send(sdp: sdp)
@@ -110,16 +110,17 @@ extension WebRTCViewModel: SignalClientDelegate {
                 }
             }
         case .answer:
-            print("answer")
+            Log.i("answer")
             webRTCClient.receiveAnswer(answerSDP: sdp)
         case .prAnswer:
-            print("prAnswer")
+            Log.i("prAnswer")
         @unknown default:
-            fatalError("unknown default")
+            Log.e("unknown default")
         }
     }
     
     func signalClient(_ signalClient: SignalingClient, didReceiveCandidate candidate: RTCIceCandidate) {
+        Log.i("signalClient(_ signalClient: SignalingClient, didReceiveCandidate candidate: RTCIceCandidate)")
         webRTCClient.receiveCandidate(remoteCandidate: candidate)
         
         if !self.isCalling.value {
