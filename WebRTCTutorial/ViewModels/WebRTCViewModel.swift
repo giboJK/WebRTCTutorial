@@ -33,7 +33,7 @@ class WebRTCViewModel {
     }
     
     deinit {
-        debugPrint(self, "Deinit")
+        Log.d(self, "Deinit")
     }
     
     func connectToSignalingServer() {
@@ -50,8 +50,6 @@ class WebRTCViewModel {
     
     func disconnect() {
         webRTCClient.disconnect()
-        // TODO: isCalling 값을 webclient로부터 가져와서 disconnect 되었을 때 false로 바꾸고
-        // false를 받으면 VideoCall에서 dismiss하는 것으로 바꾸어야 한다
     }
     
     

@@ -18,6 +18,7 @@ class MainViewController: UIViewController {
     let signalingStatusLabel = UILabel()
     let signalingServerConnectButton = UIButton(type: .system)
     let callButton = UIButton(type: .system)
+    let backButton = UIButton(type: .system)
     
     
     func binding() {
@@ -50,17 +51,21 @@ class MainViewController: UIViewController {
     }
     
     deinit {
-        print("Deint", self)
+        Log.d(self)
     }
     
     
     // MARK: User Interaction
-    @objc func didTapSignalingConnectServerButton() {
+    @objc private func didTapSignalingConnectServerButton() {
         viewModel.connectToSignalingServer()
     }
     
-    @objc func didTapCallButton() {
+    @objc private func didTapCallButton() {
         viewModel.makeCall()
+    }
+    
+    @objc private func didTapBackButton() {
+        dismiss(animated: true, completion: nil)
     }
     
     private func moveToVideoCallVC() {
@@ -73,15 +78,16 @@ class MainViewController: UIViewController {
     }
     
     // MARK: UI
-    func setupUI() {
+    private func setupUI() {
         view.backgroundColor = .white
         
         setupSignalingStatusLabel()
         setupSignalingConnectButton()
         setupCallButton()
+        setupBackButton()
     }
     
-    func setupSignalingStatusLabel() {
+    private func setupSignalingStatusLabel() {
         view.addSubview(signalingStatusLabel)
         
         signalingStatusLabel.text = "Finding the signaling server...."
@@ -93,7 +99,7 @@ class MainViewController: UIViewController {
         }
     }
     
-    func setupSignalingConnectButton() {
+    private func setupSignalingConnectButton() {
         view.addSubview(signalingServerConnectButton)
         
         signalingServerConnectButton.backgroundColor = .yellow
@@ -107,7 +113,7 @@ class MainViewController: UIViewController {
         }
     }
     
-    func setupCallButton() {
+    private func setupCallButton() {
         view.addSubview(callButton)
         
         callButton.backgroundColor = .yellow
@@ -118,6 +124,17 @@ class MainViewController: UIViewController {
             $0.bottom.equalTo(view).offset(-120)
             $0.width.equalTo(100)
             $0.height.equalTo(60)
+        }
+    }
+    
+    private func setupBackButton() {
+        view.addSubview(backButton)
+        
+        backButton.setTitle("back", for: .normal)
+        backButton.addTarget(self, action: #selector(didTapBackButton), for: .touchUpInside)
+        backButton.snp.makeConstraints {
+            $0.left.equalTo(view).offset(20)
+            $0.top.equalTo(view).offset(45)
         }
     }
 }
