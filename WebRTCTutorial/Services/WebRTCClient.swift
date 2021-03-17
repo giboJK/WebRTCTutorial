@@ -118,6 +118,8 @@ final class WebRTCClient: NSObject {
     
     func disconnect() {
         peerConnection?.close()
+        localRenderView = nil
+        remoteRenderView = nil
     }
     
     
@@ -219,10 +221,6 @@ final class WebRTCClient: NSObject {
         self.localVideoTrack?.add(renderer)
     }
     
-    func renderRemoteVideo(to renderer: RTCVideoRenderer) {
-        self.remoteVideoTrack?.add(renderer)
-    }
-    
     private func configureAudioSession() {
         self.rtcAudioSession.lockForConfiguration()
         do {
@@ -314,7 +312,7 @@ final class WebRTCClient: NSObject {
         self.isConnected = false
         
         DispatchQueue.main.async {
-            print("--- on dis connected ---")
+            Log.d("--- on dis connected ---")
             self.peerConnection!.close()
             self.peerConnection = nil
             self.localDataChannel = nil
