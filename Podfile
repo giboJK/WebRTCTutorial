@@ -12,6 +12,10 @@ target 'WebRTCTutorial' do
   
   pod 'SwiftyBeaver'
   
+  # Rx
+  pod 'RxSwift'
+  pod 'RxCocoa'
+  
   target 'WebRTCTutorialTests' do
     inherit! :search_paths
     # Pods for testing

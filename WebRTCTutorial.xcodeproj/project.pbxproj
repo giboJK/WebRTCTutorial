@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		080C5BEA2601A17300268375 /* RxWebRTCViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 080C5BE92601A17300268375 /* RxWebRTCViewModel.swift */; };
 		0848AA7625E77F52003E3951 /* WebRTCClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0848AA7525E77F52003E3951 /* WebRTCClient.swift */; };
 		0848AAA525E8A6A7003E3951 /* SignalingClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0848AAA425E8A6A7003E3951 /* SignalingClient.swift */; };
 		0848AAAE25E8AA95003E3951 /* WebSocketProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0848AAAD25E8AA95003E3951 /* WebSocketProvider.swift */; };
@@ -57,6 +58,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		080C5BE92601A17300268375 /* RxWebRTCViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RxWebRTCViewModel.swift; sourceTree = "<group>"; };
 		0848AA7525E77F52003E3951 /* WebRTCClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebRTCClient.swift; sourceTree = "<group>"; };
 		0848AAA425E8A6A7003E3951 /* SignalingClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignalingClient.swift; sourceTree = "<group>"; };
 		0848AAAD25E8AA95003E3951 /* WebSocketProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketProvider.swift; sourceTree = "<group>"; };
@@ -209,6 +211,7 @@
 			isa = PBXGroup;
 			children = (
 				08B260CE25F5BDA8008D0782 /* WebRTCViewModel.swift */,
+				080C5BE92601A17300268375 /* RxWebRTCViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -556,6 +559,7 @@
 				0848AAAE25E8AA95003E3951 /* WebSocketProvider.swift in Sources */,
 				0848AAC925E8B92D003E3951 /* NativeWebSocket.swift in Sources */,
 				0848AADC25E8C211003E3951 /* IceCandidate.swift in Sources */,
+				080C5BEA2601A17300268375 /* RxWebRTCViewModel.swift in Sources */,
 				0848AAB625E8AACD003E3951 /* StarscreamProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
