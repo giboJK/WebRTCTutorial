@@ -99,9 +99,9 @@ extension WebRTCViewModel: SignalClientDelegate {
     }
     
     func signalClient(_ signalClient: SignalingClient, didReceiveRemoteSdp sdp: RTCSessionDescription) {
+        Log.i("signalClient(_ signalClient: SignalingClient, didReceiveRemoteSdp sdp: RTCSessionDescription) \(sdp.type)")
         switch sdp.type {
         case .offer:
-            Log.i("offer")
             webRTCClient.receiveOffer(offerSDP: sdp) { [weak self] sdp in
                 guard let self = self else { return }
                 self.signalingClient.send(sdp: sdp)
@@ -110,22 +110,20 @@ extension WebRTCViewModel: SignalClientDelegate {
                 }
             }
         case .answer:
-            Log.i("answer")
             webRTCClient.receiveAnswer(answerSDP: sdp)
+            if !self.isCalling.value {
+                self.isCalling.value = true
+            }
         case .prAnswer:
-            Log.i("prAnswer")
+            break
         @unknown default:
-            Log.e("unknown default")
+            break
         }
     }
     
     func signalClient(_ signalClient: SignalingClient, didReceiveCandidate candidate: RTCIceCandidate) {
         Log.i("signalClient(_ signalClient: SignalingClient, didReceiveCandidate candidate: RTCIceCandidate)")
         webRTCClient.receiveCandidate(remoteCandidate: candidate)
-        
-        if !self.isCalling.value {
-            self.isCalling.value = true
-        }
     }
 }
 
